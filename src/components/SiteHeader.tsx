@@ -40,6 +40,7 @@ export default function SiteHeader() {
         <nav className="mobile-menu">
           {navLinks.map((l) => <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}>{l.label}</a>)}
           <a href="#cta" onClick={() => setMenuOpen(false)}>Se connecter</a>
+          <a href="#cta" onClick={() => setMenuOpen(false)}>Découvrir PicPhone</a>
         </nav>
       )}
     </header>

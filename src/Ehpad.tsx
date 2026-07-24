@@ -8,6 +8,7 @@ import SiteFooter from './components/SiteFooter'
 import PhoneFrame from './components/PhoneFrame'
 import AppScreenshot from './components/AppScreenshot'
 import Reveal from './components/Reveal'
+import { SectionIndex } from './components/Editorial'
 
 /* ---------- Content ---------- */
 
@@ -131,7 +132,7 @@ export default function Ehpad() {
         <section className="section eh-why">
           <div className="shell eh-why-grid">
             <Reveal className="head">
-              <span className="eyebrow">Pourquoi PicPhone en établissement</span>
+              <SectionIndex n="01" label="Pourquoi PicPhone en établissement" />
               <h2 className="h-section">L’isolement pèse sur vos résidents.<br />Le lien ne devrait pas peser sur vos équipes.</h2>
               <p>Les tablettes classiques finissent au fond d’un placard : trop de menus, trop d’assistance. PicPhone prend le problème à l’envers — l’écran du résident reste identique chaque jour, et ce sont les familles qui l’animent, de loin.</p>
               <a className="tlink" href="#deploy">Comment ça se déploie <ArrowRight size={16} /></a>
@@ -147,7 +148,7 @@ export default function Ehpad() {
         <section className="section eh-aud">
           <div className="shell">
             <Reveal className="head eh-center">
-              <span className="eyebrow">Un seul outil, trois bénéfices</span>
+              <SectionIndex n="02" label="Un seul outil, trois bénéfices" center />
               <h2 className="h-section">Tout le monde y gagne.</h2>
             </Reveal>
             <div className="eh-aud-grid">
@@ -167,7 +168,7 @@ export default function Ehpad() {
         <section id="deploy" className="section eh-deploy">
           <div className="shell">
             <Reveal className="head eh-center">
-              <span className="eyebrow">Déploiement</span>
+              <SectionIndex n="03" label="Déploiement" center />
               <h2 className="h-section">Opérationnel en une journée.</h2>
               <p>Un déploiement pensé pour ne rien ajouter à la charge de vos soignants.</p>
             </Reveal>
@@ -187,7 +188,7 @@ export default function Ehpad() {
         <section className="section eh-feat">
           <div className="shell">
             <Reveal className="head eh-center">
-              <span className="eyebrow">Pensé pour les établissements</span>
+              <SectionIndex n="04" label="Pensé pour les établissements" center />
               <h2 className="h-section">Ce qu’il faut pour gérer sereinement.</h2>
             </Reveal>
             <div className="eh-feat-grid">
@@ -222,7 +223,7 @@ export default function Ehpad() {
         <section className="section eh-faq">
           <div className="shell eh-faq-grid">
             <Reveal className="head">
-              <span className="eyebrow">Questions des établissements</span>
+              <SectionIndex n="05" label="Questions des établissements" />
               <h2 className="h-section">Ce que les directions nous demandent.</h2>
               <p>Une question spécifique à votre structure ? Notre équipe vous répond sous 24 h.</p>
               <a className="tlink" href="#demo">Nous contacter <ArrowRight size={16} /></a>

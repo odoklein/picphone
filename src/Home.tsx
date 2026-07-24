@@ -1,7 +1,7 @@
 import { useState, type ComponentType } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
-  Activity, ArrowRight, Bell, Check, Clock, Heart, Image as ImageIcon,
+  Activity, ArrowRight, Bell, Check, Clock, Heart,
   MessageCircle, Mic, Phone, ScanFace, Smile, Sparkles, Star, Users, Wifi,
 } from 'lucide-react'
 import SiteHeader from './components/SiteHeader'
@@ -9,6 +9,7 @@ import SiteFooter from './components/SiteFooter'
 import PhoneFrame from './components/PhoneFrame'
 import AppScreenshot from './components/AppScreenshot'
 import Reveal from './components/Reveal'
+import { SectionIndex, Underline } from './components/Editorial'
 
 /* ---------- Content ---------- */
 
@@ -63,20 +64,6 @@ const faqItems = [
 ]
 
 /* ---------- Decorative SVGs ---------- */
-
-function HeroRibbon() {
-  return (
-    <svg className="hero-ribbon" viewBox="0 0 520 560" fill="none" preserveAspectRatio="none" aria-hidden>
-      <defs>
-        <linearGradient id="hr" x1="20" y1="380" x2="500" y2="90" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#1463FF" /><stop offset="1" stopColor="#5AD1CE" />
-        </linearGradient>
-      </defs>
-      <path d="M20 380 C 150 350 230 250 290 195 C 350 140 430 165 505 120" stroke="url(#hr)" strokeWidth="3" strokeLinecap="round" opacity="0.5" />
-      <path className="ribbon-path" d="M20 380 C 150 350 230 250 290 195 C 350 140 430 165 505 120" stroke="#EAF2FF" strokeWidth="1.2" strokeLinecap="round" opacity="0.7" />
-    </svg>
-  )
-}
 
 function ExpConnect() {
   return (
@@ -142,20 +129,7 @@ export default function Home() {
                   <span><Clock size={17} /> Installation en quelques minutes</span>
                 </div>
               </Reveal>
-              <div className="hero-cine-stage">
-                <HeroRibbon />
-                <div className="hero-cine-phone">
-                  <PhoneFrame width={248}><AppScreenshot src="/images/screen-contact-portrait.jpg" alt="Fiche contact de Nadia avec de grands boutons d’appel" cropTop={4} /></PhoneFrame>
-                </div>
-                <div className="hero-chip c-call">
-                  <span className="dot-live" />
-                  <div><small>Appel vidéo</small><strong>Nadia · maintenant</strong></div>
-                </div>
-                <div className="hero-chip c-photo">
-                  <span className="ic"><ImageIcon size={16} /></span>
-                  <div><small>Nouvelle photo</small><strong>Reçue ce matin</strong></div>
-                </div>
-              </div>
+              <div className="hero-cine-stage" aria-hidden />
             </div>
           </div>
         </section>
@@ -176,7 +150,8 @@ export default function Home() {
         <section id="experiences" className="section exp">
           <div className="shell">
             <Reveal className="head">
-              <h2 className="h-section">Pour lui, tout est évident.<br />Pour vous, tout reste à portée.</h2>
+              <SectionIndex n="01" label="Une même attention, deux interfaces" />
+              <h2 className="h-section">Pour lui, tout est évident.<br />Pour vous, tout reste à <Underline>portée.</Underline></h2>
               <p>PicPhone relie un écran pensé pour le senior à un espace de gestion pensé pour les proches — deux extrémités d’un même lien.</p>
             </Reveal>
             <div className="exp-grid">
@@ -187,6 +162,7 @@ export default function Home() {
                 <span className="exp-label"><Smile size={15} /> Pour lui</span>
                 <h3>Son écran</h3>
                 <p>Des visages connus, de grands boutons et aucune navigation compliquée.</p>
+                <span className="cap teal"><i />Interface du senior</span>
               </Reveal>
               <span className="exp-bridge"><Wifi size={14} /> Reliés à distance</span>
               <Reveal className="exp-col family" delay={0.12}>
@@ -195,6 +171,7 @@ export default function Home() {
                 <span className="exp-label"><Users size={15} /> Pour vous</span>
                 <h3>Votre espace</h3>
                 <p>Vous configurez les contacts, les repères et les informations utiles à distance.</p>
+                <span className="cap"><i />Espace de gestion</span>
               </Reveal>
             </div>
           </div>
@@ -205,8 +182,8 @@ export default function Home() {
           <div className="shell principle-grid">
             <Reveal>
               <div className="head">
-                <span className="eyebrow">Le quotidien, simplifié</span>
-                <h2 className="h-section">Tout ce qui est utile,<br />au bon endroit.</h2>
+                <SectionIndex n="02" label="Le quotidien, simplifié" />
+                <h2 className="h-section">Tout ce qui est utile,<br /><Underline>au bon endroit.</Underline></h2>
               </div>
               <div className="benefits">
                 {benefits.map(({ Icon, title, text, tint }) => (
@@ -231,7 +208,7 @@ export default function Home() {
         <section id="how" className="section how">
           <div className="shell">
             <Reveal className="head">
-              <span className="eyebrow">Installation</span>
+              <SectionIndex n="03" label="Installation" />
               <h2 className="h-section">Quelques réglages suffisent.</h2>
             </Reveal>
             <div className="how-flow">
@@ -253,11 +230,11 @@ export default function Home() {
         </section>
 
         {/* ============ EMOTIONAL BRAND ============ */}
-        <section id="lien" className="brand on-dark">
+        <section id="lien" className="brand on-dark grain">
           <div className="brand-grid">
             <Reveal className="brand-copy">
-              <span className="eyebrow">Le lien retrouvé</span>
-              <h2>Recommencer un lien numérique,<br />sans charger leur quotidien.</h2>
+              <SectionIndex n="04" label="Le lien retrouvé" />
+              <h2>Recommencer un lien numérique,<br />sans charger <Underline>leur quotidien.</Underline></h2>
               <p>PicPhone ne demande rien au senior : pas de mise à jour, pas de mot de passe, pas d’apprentissage. Juste des visages familiers, et la présence des siens qui revient, jour après jour.</p>
               <div className="brand-proof">
                 {brandProof.map(({ Icon, label }) => (
@@ -281,7 +258,7 @@ export default function Home() {
         <section id="familles" className="section tstm">
           <div className="shell">
             <Reveal className="head">
-              <span className="eyebrow">Ce qu’en disent les familles</span>
+              <SectionIndex n="05" label="Ce qu’en disent les familles" />
               <h2 className="h-section">Une application discrète,<br />qui laisse revenir les habitudes.</h2>
             </Reveal>
             <div className="tstm-grid">
@@ -311,7 +288,7 @@ export default function Home() {
         <section id="daily" className="section daily">
           <div className="shell">
             <Reveal className="head">
-              <span className="eyebrow">Un accompagnement discret</span>
+              <SectionIndex n="06" label="Un accompagnement discret" center />
               <h2 className="h-section">Un quotidien plus simple,<br />sans devenir intrusif.</h2>
               <p>Depuis votre espace, vous préparez les repères importants. Le senior, lui, ne voit qu’un écran calme et familier.</p>
             </Reveal>
@@ -345,7 +322,7 @@ export default function Home() {
         <section id="faq" className="section faq">
           <div className="shell faq-grid">
             <Reveal className="faq-aside">
-              <span className="eyebrow">FAQ</span>
+              <SectionIndex n="07" label="FAQ" />
               <h2 className="h-section">Les questions que les familles se posent.</h2>
               <p>Tout ce que les proches nous demandent avant de se lancer. Une autre question ?</p>
               <a className="tlink" href="#cta">Parler à notre équipe <ArrowRight size={16} /></a>
@@ -373,7 +350,7 @@ export default function Home() {
         </section>
 
         {/* ============ EMOTIONAL STATEMENT ============ */}
-        <section id="statement" className="statement on-dark">
+        <section id="statement" className="statement on-dark grain">
           <div className="st-glow" />
           <Reveal>
             <RibbonSymbol />

@@ -157,22 +157,8 @@ section[id] { scroll-margin-top:96px; }
 .hero-assure span { display:inline-flex; align-items:center; gap:9px; color:#EAF0F8; font-size:15px; font-weight:500; }
 .hero-assure svg { color:#7FD8DC; flex:none; }
 
-/* Floating product + connection over the photography */
 .hero-cine-stage { position:relative; align-self:stretch; }
-.hero-cine-phone { position:absolute; left:1%; top:50%; transform:translateY(-50%); z-index:2; }
-.hero-cine-phone > div { filter:drop-shadow(0 40px 70px rgba(0,0,0,.55)); animation:rise .8s var(--ease) both .2s; }
 @keyframes rise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
-.hero-ribbon { position:absolute; inset:0; z-index:1; width:100%; height:100%; overflow:visible; pointer-events:none; }
-@keyframes ribbonFlow { to { stroke-dashoffset:-260; } }
-.ribbon-path { stroke-dasharray:9 13; animation:ribbonFlow 9s linear infinite; }
-.hero-chip { position:absolute; z-index:3; display:flex; align-items:center; gap:11px;
-  padding:11px 15px; border-radius:16px; background:rgba(255,255,255,.97); backdrop-filter:blur(8px); box-shadow:var(--sh-lg); }
-.hero-chip .ic { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; background:var(--tint-blue); color:var(--blue); flex:none; }
-.hero-chip small { display:block; color:var(--muted); font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
-.hero-chip strong { display:block; color:var(--ink); font-size:13.5px; font-weight:600; letter-spacing:-.01em; }
-.hero-chip .dot-live { width:9px; height:9px; border-radius:50%; background:#16c47f; box-shadow:0 0 0 4px rgba(22,196,127,.2); }
-.hero-chip.c-call { top:14%; left:33%; animation:floatY 6s var(--ease) infinite; }
-.hero-chip.c-photo { bottom:15%; left:4%; animation:floatY 7.5s var(--ease) .4s infinite; }
 @keyframes floatY { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-9px); } }
 
 /* ============================================================
@@ -301,7 +287,7 @@ section[id] { scroll-margin-top:96px; }
 /* ============================================================
    DAILY SUPPORT
    ============================================================ */
-.daily { background:var(--grey); }
+.daily { background:var(--grey); overflow:hidden; }
 .daily .head { max-width:720px; margin:0 auto 20px; text-align:center; }
 .daily .head p { margin-left:auto; margin-right:auto; }
 .daily-stage { position:relative; display:grid; place-items:center; min-height:620px; margin-top:32px; }
@@ -409,7 +395,6 @@ section[id] { scroll-margin-top:96px; }
   .hero-cine-grid { grid-template-columns:1fr; min-height:0; gap:8px; }
   .hero-cine-copy { max-width:640px; padding-block:80px 32px; }
   .hero-cine-stage { height:420px; }
-  .hero-cine-phone { left:50%; transform:translate(-50%,-50%); }
   .mobile-menu { display:flex; flex-direction:column; padding:8px 28px 20px; background:#fff; border-bottom:1px solid var(--line); }
   .mobile-menu a { padding:13px 0; font-size:16px; font-weight:500; color:var(--ink); border-bottom:1px solid var(--line-soft); }
   .mobile-menu a:last-child { border-bottom:0; color:var(--blue); }
@@ -427,6 +412,8 @@ section[id] { scroll-margin-top:96px; }
 @media (max-width:760px) {
   :root { --gut:20px; }
   body { font-size:16px; }
+  /* Phone header collapses to logo + burger; the CTA and login live in the menu */
+  .nav-login, .nav-cta { display:none; }
   .promise-inner { grid-template-columns:1fr 1fr; }
   .promise-item:nth-child(odd)::before { display:none; }
   .promise-item:nth-child(3)::before, .promise-item:nth-child(4)::before { content:''; }
@@ -449,6 +436,130 @@ section[id] { scroll-margin-top:96px; }
   .footer-brand { grid-column:1 / -1; }
   .statement { padding-block:100px; }
 }
+
+/* ============================================================
+   REFINEMENT LAYER — editorial system · brand motif · micro-detail
+   Layered on top of the base to elevate craft without reshaping IA.
+   ============================================================ */
+
+/* --- Chapter index: a numbered kicker that threads the page like a
+       magazine's running heads. Replaces bare eyebrows in narrative sections. */
+.kicker { display:inline-flex; align-items:baseline; gap:13px; margin:0 0 26px; max-width:100%; }
+.kicker-no { font-family:var(--font-heading); font-weight:600; font-size:14px; letter-spacing:.01em;
+  color:var(--blue); font-variant-numeric:tabular-nums; flex:none; }
+.kicker-bar { align-self:center; width:22px; height:1px; background:var(--line); flex:none; }
+.kicker-lb { min-width:0; font-size:12px; font-weight:700; letter-spacing:.19em; text-transform:uppercase; color:var(--muted); }
+.on-dark .kicker-no { color:#8FB4FF; }
+.on-dark .kicker-bar { background:rgba(255,255,255,.24); }
+.on-dark .kicker-lb { color:#9FB2D0; }
+.kicker.center { justify-content:center; }
+
+/* --- Static hand-drawn underline: echoes the hero marker as a recurring
+       motif on a single keyword per heading. Draws once, then rests. */
+.ul { position:relative; white-space:nowrap; }
+.ul > svg { position:absolute; left:-1%; bottom:-.14em; width:102%; height:.3em; overflow:visible; pointer-events:none; }
+.ul path { fill:none; stroke:var(--blue); stroke-width:6; stroke-linecap:round;
+  stroke-dasharray:340; stroke-dashoffset:340; animation:markDraw 1s var(--ease) .3s forwards; }
+.on-dark .ul path { stroke:#4D8CFF; }
+.is-static .ul path { animation:none; stroke-dashoffset:0; }
+
+/* --- Interface micro-caption: a whispered label beneath a device, the kind
+       a designer annotates a mockup with. */
+.cap { display:inline-flex; align-items:center; gap:8px; margin-top:18px;
+  font-size:11.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); }
+.cap i { width:5px; height:5px; border-radius:50%; background:var(--blue); flex:none; }
+.cap.teal i { background:var(--teal); }
+
+/* --- Fine grain + inner vignette for dark surfaces: depth you feel more
+       than see. Kept below content via z-index. */
+.grain::before { content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  opacity:.5; mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
+
+/* ============================================================
+   HERO — deeper cinema, a quieter caption
+   ============================================================ */
+.hero-cine-media::after { content:''; position:absolute; inset:0;
+  background:radial-gradient(120% 90% at 72% 42%, transparent 46%, rgba(11,18,34,.42) 100%); }
+.hero-cine-copy .eyebrow { display:inline-flex; align-items:center; gap:12px; }
+.hero-cine-copy .eyebrow::after { content:''; width:34px; height:1px; background:rgba(143,180,255,.5); }
+/* A third floating chip — a signature 'photo received' thumbnail with life */
+.hero-chip.c-photo .ic { overflow:hidden; padding:0; }
+
+/* ============================================================
+   PROMISE STRIP — lighter, more editorial ledger
+   ============================================================ */
+.promise { background:linear-gradient(180deg,#fff,#FCFDFF); }
+.promise-item { padding-block:34px; }
+.promise-item p { letter-spacing:-.01em; }
+.promise-item p span { letter-spacing:.005em; margin-top:2px; }
+
+/* ============================================================
+   TWO EXPERIENCES — the link made literal
+   ============================================================ */
+.exp-grid { margin-top:76px; }
+.exp-col h3 { font-size:27px; }
+
+/* ============================================================
+   PRINCIPLE — annotations gain connector lines
+   ============================================================ */
+.principle { background:
+  radial-gradient(90% 60% at 82% 8%, rgba(20,99,255,.06), transparent 60%),
+  linear-gradient(180deg,var(--tint-blue-2),var(--tint-blue)); }
+.annot { border:1px solid rgba(20,99,255,.08); }
+
+/* ============================================================
+   BRAND — texture + a hairline seam between panels
+   ============================================================ */
+.brand-grid { position:relative; z-index:1; }
+.brand-copy { position:relative; z-index:1; }
+.brand-media::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; z-index:2;
+  background:linear-gradient(180deg, transparent, rgba(255,255,255,.14), transparent); }
+.brand-stat strong { letter-spacing:-.035em; }
+
+/* ============================================================
+   TESTIMONIALS — an editorial quote, not a card grid
+   ============================================================ */
+.tcard { position:relative; }
+.tcard.feature { padding-top:60px; }
+.tcard.feature::before { content:'\201C'; position:absolute; top:24px; left:48px;
+  font-family:var(--font-heading); font-weight:600; font-size:120px; line-height:1;
+  color:var(--blue); opacity:.14; }
+.tcard.feature blockquote { position:relative; z-index:1; letter-spacing:-.018em; }
+.tcard:not(.feature) { border:1px solid rgba(26,43,74,.05); }
+.tcard:hover { transform:translateY(-3px); transition:transform .3s var(--ease); }
+
+/* ============================================================
+   DAILY — a distinct, calmer stage than Principle
+   ============================================================ */
+.daily { background:linear-gradient(180deg,#fff, var(--grey) 22%, var(--grey)); }
+.dmod { border:1px solid rgba(26,43,74,.05); }
+.dmod::after { content:''; position:absolute; width:7px; height:7px; border-radius:50%;
+  background:var(--blue); box-shadow:0 0 0 4px rgba(20,99,255,.14); }
+.dmod.m1::after { right:-20px; top:34px; }
+.dmod.m2::after { left:-20px; top:34px; background:var(--teal); box-shadow:0 0 0 4px rgba(57,173,181,.16); }
+.dmod.m3::after { right:-20px; top:34px; background:var(--violet); box-shadow:0 0 0 4px rgba(102,71,232,.14); }
+@media (max-width:760px){ .dmod::after{ display:none; } }
+
+/* ============================================================
+   FAQ — a numbered index on the left
+   ============================================================ */
+.faq-q { position:relative; padding-left:48px; }
+.faq-item { counter-increment:faq; }
+.faq-q::before { content:counter(faq,decimal-leading-zero); position:absolute; left:2px; top:30px;
+  font-family:var(--font-heading); font-weight:600; font-size:14px; color:var(--blue);
+  opacity:.55; font-variant-numeric:tabular-nums; }
+.faq-a p { padding-left:48px; }
+.faq-list { counter-reset:faq; }
+
+/* ============================================================
+   STATEMENT + CTA — texture and refined light
+   ============================================================ */
+.statement .st-glow { background:radial-gradient(ellipse, rgba(20,99,255,.26), transparent 66%); }
+.cta { background:
+  radial-gradient(80% 120% at 100% 0%, rgba(90,209,206,.28), transparent 55%),
+  linear-gradient(135deg,#1463FF,#2F73FF 55%,#3F7DFF); }
+.cta-copy h2 { letter-spacing:-.032em; }
 
 /* ============================================================
    EHPAD / RESIDENCES PAGE
@@ -609,11 +720,19 @@ section[id] { scroll-margin-top:96px; }
 
 /* Static QA mode (?static=1): show final state for headless captures */
 .is-static .mark path { animation:none; stroke-dashoffset:0; }
-.is-static .hero-cine-phone > div, .is-static .hero-chip { animation:none; }
 .is-static .eh-hero-phone, .is-static .eh-chip { animation:none; }
 
 @media (max-width:760px) {
   .hero-cine-stage { height:340px; }
-  .hero-chip { display:none; }
+  .hero-cine-copy .eyebrow::after { display:none; }
   .hero-cine-scrim { background:linear-gradient(180deg, rgba(15,24,44,.9) 0%, rgba(15,24,44,.64) 42%, rgba(15,24,44,.5) 70%, rgba(15,24,44,.74)); }
 }
+
+/* Résidences FAQ — numbered index (placed last so it wins over base padding) */
+.eh-faq-list { counter-reset:faq; }
+.eh-faq-item { counter-increment:faq; }
+.eh-faq-item summary { position:relative; padding-left:48px; }
+.eh-faq-item summary::before { content:counter(faq,decimal-leading-zero); position:absolute; left:2px; top:28px;
+  font-family:var(--font-heading); font-weight:600; font-size:14px; color:var(--blue);
+  opacity:.55; font-variant-numeric:tabular-nums; }
+.eh-faq-item > p { padding-left:48px; }
