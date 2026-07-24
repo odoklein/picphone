@@ -138,7 +138,7 @@ export default function Ehpad() {
               <a className="tlink" href="#deploy">Comment ça se déploie <ArrowRight size={16} /></a>
             </Reveal>
             <Reveal className="eh-why-media" delay={0.12}>
-              <img src="/images/ephad.png" alt="Une résidente en appel vidéo avec un proche depuis sa chambre" loading="lazy" />
+              <img src="/images/ehpad.png" alt="Un membre du personnel accompagne une résidente lors d’un appel vidéo avec un proche" loading="lazy" />
               <div className="eh-why-badge"><ScanFace size={18} /><span>Interface basée sur les visages</span></div>
             </Reveal>
           </div>
