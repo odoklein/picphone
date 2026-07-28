@@ -6,9 +6,12 @@ interface PhoneFrameProps {
   statusDark?: boolean
   /** Device width in px. Height follows the 9/19.5 aspect. Defaults to 288. */
   width?: number
+  /** Set false when the screenshot inside already carries the device's own status
+   *  bar — the notch still draws, and it lands in the gap the real one leaves. */
+  statusBar?: boolean
 }
 
-export default function PhoneFrame({ children, className = '', statusDark = false, width = 288 }: PhoneFrameProps) {
+export default function PhoneFrame({ children, className = '', statusDark = false, width = 288, statusBar = true }: PhoneFrameProps) {
   const tint = statusDark ? '#ffffff' : 'var(--ink)'
 
   return (
@@ -18,17 +21,19 @@ export default function PhoneFrame({ children, className = '', statusDark = fals
           {/* notch */}
           <div className="absolute left-1/2 top-2 z-20 h-[26px] w-[92px] -translate-x-1/2 rounded-full bg-black" />
           {/* status bar */}
-          <div
-            className="absolute left-1/2 top-[15px] z-20 flex w-[calc(100%-40px)] -translate-x-1/2 items-center justify-between text-[11px] font-semibold"
-            style={{ color: tint }}
-          >
-            <span>11:08</span>
-            <span className="flex items-center gap-1.5" aria-hidden>
-              <SignalBars tint={tint} />
-              <WifiGlyph tint={tint} />
-              <BatteryGlyph tint={tint} />
-            </span>
-          </div>
+          {statusBar && (
+            <div
+              className="absolute left-1/2 top-[15px] z-20 flex w-[calc(100%-40px)] -translate-x-1/2 items-center justify-between text-[11px] font-semibold"
+              style={{ color: tint }}
+            >
+              <span>11:08</span>
+              <span className="flex items-center gap-1.5" aria-hidden>
+                <SignalBars tint={tint} />
+                <WifiGlyph tint={tint} />
+                <BatteryGlyph tint={tint} />
+              </span>
+            </div>
+          )}
           <div className="absolute inset-0">{children}</div>
         </div>
       </div>

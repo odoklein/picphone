@@ -102,7 +102,7 @@ export default function Ehpad() {
             </Reveal>
             <div className="eh-hero-stage">
               <div className="eh-hero-phone">
-                <PhoneFrame width={240}><AppScreenshot src="/images/screen-home-faces.jpg" alt="Écran d’accueil d’un résident avec les visages de ses proches" cropTop={4} /></PhoneFrame>
+                <PhoneFrame width={240} statusBar={false}><AppScreenshot src="/images/app/senior-accueil.jpg" alt="Écran d’accueil d’un résident avec les visages de ses proches" cropTop={0} /></PhoneFrame>
               </div>
               <Reveal className="eh-chip c1" delay={0.3}>
                 <span className="ic teal"><HeartHandshake size={16} /></span>

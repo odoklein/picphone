@@ -3,11 +3,11 @@ import { Menu, X } from 'lucide-react'
 import Logo from './Logo'
 
 const navLinks = [
-  { label: 'Pour les familles', href: '#experiences' },
-  { label: 'Comment ça marche', href: '#how' },
+  { label: 'Ce que ça change', href: '#benefice' },
+  { label: 'Fonctionnalités', href: '#/fonctionnalites' },
+  { label: 'Écran par écran', href: '#ecrans' },
   { label: 'Pour les établissements', href: '#/ehpad' },
-  { label: 'Tarifs', href: '#cta' },
-  { label: 'Ressources', href: '#faq' },
+  { label: 'Questions', href: '#faq' },
 ]
 
 export default function SiteHeader() {
@@ -30,7 +30,7 @@ export default function SiteHeader() {
         </nav>
         <div className="nav-right">
           <a className="nav-login" href="#cta">Se connecter</a>
-          <a className="btn btn-primary nav-cta" href="#cta">Découvrir PicPhone</a>
+          <a className="btn btn-primary nav-cta" href="#cta">Essayer gratuitement</a>
           <button className="nav-burger" aria-expanded={menuOpen} aria-label="Menu" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -40,7 +40,7 @@ export default function SiteHeader() {
         <nav className="mobile-menu">
           {navLinks.map((l) => <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}>{l.label}</a>)}
           <a href="#cta" onClick={() => setMenuOpen(false)}>Se connecter</a>
-          <a href="#cta" onClick={() => setMenuOpen(false)}>Découvrir PicPhone</a>
+          <a href="#cta" onClick={() => setMenuOpen(false)}>Essayer gratuitement</a>
         </nav>
       )}
     </header>

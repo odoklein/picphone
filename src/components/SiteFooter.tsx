@@ -15,16 +15,17 @@ export default function SiteFooter() {
           </div>
           <div className="footer-col">
             <h4>Produit</h4>
-            <a href="#experiences">Pour les familles</a>
-            <a href="#how">Comment ça marche</a>
-            <a href="#/ehpad">Pour les établissements</a>
-            <a href="#cta">Tarifs</a>
+            <a href="#benefice">Ce que ça change</a>
+            <a href="#/fonctionnalites">Fonctionnalités &amp; installation</a>
+            <a href="#ecrans">Écran par écran</a>
+            <a href="#residences">Pour les résidences</a>
+            <a href="#cta">Essayer gratuitement</a>
           </div>
           <div className="footer-col">
             <h4>Ressources</h4>
             <a href="#faq">Questions fréquentes</a>
-            <a href="#/ehpad">Isolement des seniors</a>
-            <a href="#cta">Guide d’installation</a>
+            <a href="#lien">Isolement des seniors</a>
+            <a href="#familles">Témoignages de familles</a>
             <a href="mailto:bonjour@picphone.fr">Support</a>
           </div>
           <div className="footer-col">
