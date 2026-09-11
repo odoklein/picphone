@@ -1,365 +1,311 @@
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Heart, Mic, Phone, ScanFace, Sparkles, Star } from 'lucide-react'
+import { type ComponentType } from 'react'
+import {
+  ArrowRight, Check, Gift, HeartHandshake, Mail, MapPin, MessageCircleHeart,
+  Mic, Phone, RefreshCw, Smartphone, Smile,
+} from 'lucide-react'
 import SiteHeader from './components/SiteHeader'
 import SiteFooter from './components/SiteFooter'
 import PhoneFrame from './components/PhoneFrame'
 import AppScreenshot from './components/AppScreenshot'
-import AppClutter from './components/AppClutter'
-import JourneyCarousel from './components/JourneyCarousel'
+import HeroBackdrop from './components/HeroBackdrop'
+import VideoPreview from './components/VideoPreview'
+import LeadForm from './components/LeadForm'
 import Reveal from './components/Reveal'
 import { SectionIndex, Underline } from './components/Editorial'
-import { TRIAL_ANCHOR, TRIAL_LABEL, TRIAL_MICRO, TRIAL_START } from './trial'
+import { DISCOVER_ANCHOR, DISCOVER_LABEL, TRIAL_LABEL, TRIAL_MICRO, TRIAL_START } from './trial'
 
 /* ---------- Content ----------
-   One message, everywhere on this page: PicPhone facilite la communication et
-   réduit l'isolement des seniors. A block that explains the product without
-   serving that sentence doesn't belong here.
+   Follows the validated brief section by section (01 Hero → 11 CTA final).
+   Where the brief itself flags content as unfinished — pricing, testimonials —
+   the copy below says so plainly instead of inventing figures or people. */
 
-   One button on the whole page, repeated word for word in the hero and at the
-   bottom. Everything else that used to be a second path is a text link. */
-
-const promise = [
-  { icon: '/images/settings.svg', title: 'Quelques minutes', sub: 'pour tout configurer' },
-  { icon: '/images/caregiving.svg', title: 'Rien à apprendre', sub: 'pour votre parent' },
-  { icon: '/images/video-call.svg', title: 'Un appui', sub: 'et l’appel démarre' },
-  { icon: '/images/community.svg', title: '4 contacts', sub: 'gratuits, sans engagement' },
-]
-
-/* §1.2 — the three lines that replace a feature list. No jargon, no icons. */
-const benefitLines = [
-  'Un seul écran, avec les visages des proches.',
-  'Un appui sur une photo, l’appel démarre.',
-  'Personne à appeler à l’aide pour y arriver.',
-]
-
-/* §1.3 — real app screens, one caption each. Not a tutorial: what changes. */
-const screens = [
+const audiences: { Icon: ComponentType<{ size?: number }>; tag: string; title: string; text: string; points: string[]; tint: string }[] = [
   {
-    src: '/images/app/senior-accueil.jpg',
-    alt: 'Écran d’accueil du senior : les visages de ses proches en grand, sans liste ni clavier',
-    title: 'L’écran d’accueil du senior',
-    text: 'Pas de liste de contacts, pas de clavier. Des grandes photos, dans l’ordre choisi par la famille.',
+    Icon: Smile, tag: 'Pour les seniors', tint: 'teal',
+    title: 'Une technologie qui s’adapte à eux.',
+    text: 'Une interface simple, pensée pour être utilisée sans apprentissage compliqué.',
+    points: ['Les proches sont visibles en photo', 'Un seul geste pour appeler', 'Pas de menus complexes'],
   },
   {
-    src: '/images/app/senior-appel.jpg',
-    alt: 'Fiche d’un proche avec les boutons appeler, appel vidéo et message',
-    title: 'L’appel',
-    text: 'Un appui sur la photo. L’appel part. C’est tout le geste à retenir.',
-  },
-  {
-    src: '/images/app/senior-rappels.jpg',
-    alt: 'Rappel de médicament affiché en haut de l’écran du senior',
-    title: 'Les rappels du quotidien',
-    text: 'Le médicament du matin, la météo du jour, un mot laissé par la famille. Des repères simples, sur le même écran.',
-  },
-  {
-    src: '/images/app/aidant-tableau-de-bord.jpg',
-    alt: 'Tableau de bord de l’aidant : contacts, photos, services et dernières nouvelles du senior',
-    title: 'Le tableau de bord de l’aidant',
-    text: 'À distance, vous ajoutez un contact, vous changez une photo, vous voyez que l’appel de dimanche a bien eu lieu.',
+    Icon: HeartHandshake, tag: 'Pour les aidants et les familles', tint: 'blue',
+    title: 'Garder le lien, simplement.',
+    text: 'L’aidant configure PicPhone pour que le senior puisse ensuite l’utiliser en toute simplicité.',
+    points: ['Installation et configuration par l’aidant', 'Gestion des proches', 'Synchronisation avec le téléphone du senior', 'Une solution pensée pour rassurer les proches'],
   },
 ]
 
-const brandProof = [
-  { Icon: Sparkles, label: 'Moins de confusion' },
-  { Icon: ScanFace, label: 'Plus d’autonomie' },
-  { Icon: Heart, label: 'Plus de présence' },
+const steps = [
+  { num: '01', Icon: Smartphone, title: 'L’aidant installe', text: 'L’aidant installe et paramètre PicPhone.' },
+  { num: '02', Icon: RefreshCw, title: 'L’aidant synchronise', text: 'Les aidants configurent et synchronisent l’interface du senior avec les contacts et les éléments nécessaires à son utilisation.' },
+  { num: '03', Icon: Check, title: 'C’est prêt', text: 'Le senior retrouve une interface simple avec les photos de ses proches et les fonctions utiles à son quotidien.' },
 ]
 
-const testimonials = {
-  feature: {
-    body: 'Depuis PicPhone, ma mère m’envoie une photo chaque matin. On a retrouvé une forme de complicité qu’on n’avait plus depuis longtemps.',
-    name: 'Camille', role: 'Fille de Nadia · Nantes', initial: 'C', tint: 't-cream',
+/* Placeholders, not real customers — the brief lists these as
+   [TÉMOIGNAGE 01/02/03] to collect, not copy to write. */
+const testimonialSlots = [1, 2, 3]
+
+/* Placeholders, not a validated tariff — the brief defers the real pricing
+   proposal. Names and inclusions are indicative, ready to be replaced. */
+const plans = [
+  {
+    name: 'Découverte', price: 'Essai gratuit', note: '7 jours, sans carte bancaire',
+    features: ['Jusqu’à 4 contacts avec photo', 'Appels audio et vidéo', 'Rappels du quotidien'],
   },
-  side: [
-    { body: 'Papa a 82 ans. Il n’a jamais aimé les smartphones. Aujourd’hui il utilise PicPhone tous les jours, sans nous appeler à l’aide.', name: 'Marc', role: 'Fils de Robert · Lyon', initial: 'M', tint: 't-teal' },
-    { body: 'L’installation nous a pris cinq minutes. Le soir même, ma grand-mère avait partagé son humeur avec toute la famille.', name: 'Yasmine', role: 'Petite-fille de Aïcha · Marseille', initial: 'Y', tint: 't-violet' },
-  ],
-}
+  {
+    name: 'Famille', price: 'Tarif à définir', note: 'par mois, un aidant',
+    features: ['Contacts illimités', 'Tous les rappels et widgets', 'Support par e-mail'],
+    highlight: true,
+  },
+  {
+    name: 'Famille+', price: 'Tarif à définir', note: 'par mois, plusieurs aidants',
+    features: ['Tout Famille, et plus', 'Plusieurs aidants sur un même profil senior', 'Support prioritaire'],
+  },
+]
 
 const faqItems = [
-  { q: 'À qui s’adresse PicPhone ?', a: 'Aux seniors qui veulent rester en lien sans se battre avec la technologie, et aux proches qui veulent rester présents au quotidien, même à distance.' },
-  { q: 'Qui installe l’application ?', a: 'Vous. Vous créez le profil, vous ajoutez les contacts avec leur photo — tout depuis votre propre téléphone. Votre parent n’a rien à installer.' },
-  { q: 'Le senior doit-il savoir utiliser WhatsApp ?', a: 'Non. Il n’a ni menu ni application à apprendre. Sur son écran, il touche un visage et l’appel démarre.' },
-  { q: 'Faut-il être présent pour l’installer ?', a: 'Presque pas. Tout se prépare à distance. Une seule étape demande d’être ensemble : la première fois que les deux téléphones se reconnaissent.' },
-  { q: 'Et si nos proches utilisent des applications différentes ?', a: 'C’est justement le problème que PicPhone règle. Peu importe ce que vous utilisez de votre côté : de son côté à lui, il n’y a qu’un écran avec des visages.' },
-  { q: 'Que contient l’essai gratuit ?', a: 'Jusqu’à quatre contacts, avec leurs photos, sans engagement et sans carte bancaire. De quoi voir ce que ça change en une semaine.' },
+  { q: 'PicPhone fonctionne-t-il sur tous les téléphones ?', a: 'PicPhone est compatible avec les smartphones récents sous iOS et Android, aussi bien côté senior que côté aidant.' },
+  { q: 'Qui doit télécharger l’application ?', a: 'L’aidant télécharge PicPhone et crée le profil du senior. L’application est ensuite installée et synchronisée sur le téléphone du senior.' },
+  { q: 'Comment paramétrer le téléphone ?', a: 'Tout se fait depuis l’application de l’aidant, en quelques étapes guidées : ajout des proches, des photos, puis synchronisation avec le téléphone du senior.' },
+  { q: 'Combien de temps prend l’installation ?', a: 'Quelques minutes suffisent pour créer le profil, ajouter les premiers contacts et synchroniser le téléphone du senior.' },
+  { q: 'Peut-on ajouter un deuxième aidant (ex : plusieurs enfants) avec accès au même compte senior ?', a: 'Oui. Plusieurs aidants peuvent être rattachés au même profil senior et gérer les contacts et les rappels ensemble.' },
+  { q: 'L’application est-elle payante ?', a: 'PicPhone propose un essai gratuit, puis des formules payantes détaillées dans la section Tarifs.' },
+  { q: 'Faut-il une connexion Internet pour utiliser PicPhone ?', a: 'Oui, une connexion Wi-Fi ou données mobiles est nécessaire pour les appels audio et vidéo.' },
+  { q: 'Le senior peut-il recevoir des appels avec PicPhone ?', a: 'Oui. Le senior peut recevoir des appels de ses proches enregistrés, en plus de pouvoir en passer d’un geste.' },
+  { q: 'Les proches doivent-ils installer quelque chose pour appeler le senior ?', a: 'Non, le senior peut appeler ou être appelé directement depuis son écran PicPhone, sans démarche particulière pour ses proches.' },
+  { q: 'Comment fonctionne le parrainage (un mois offert) ?', a: 'En parrainant une autre famille, vous bénéficiez d’un mois gratuit sur votre formule aidant dès que le filleul s’abonne.' },
 ]
 
-/* ---------- Decorative SVG ---------- */
-
-function RibbonSymbol() {
-  return (
-    <svg className="ribbon-symbol" width="72" height="44" viewBox="0 0 72 44" fill="none" aria-hidden>
-      <defs>
-        <linearGradient id="rs" x1="0" y1="0" x2="72" y2="0" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#5FA0FF" /><stop offset="1" stopColor="#5AD1CE" />
-        </linearGradient>
-      </defs>
-      <path d="M6 22 C 6 6 26 6 36 22 C 46 38 66 38 66 22 C 66 6 46 6 36 22 C 26 38 6 38 6 22 Z" stroke="url(#rs)" strokeWidth="3.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
 export default function Home() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0)
-
   return (
     <div>
       <SiteHeader />
 
       <main id="top">
-        {/* ============ 1.1 — HERO ============ */}
+        {/* ============ 01 — HERO ============ */}
         <section className="hero-cine on-dark">
           <div className="hero-cine-media" aria-hidden>
-            <img src="/images/family-senior-lifestyle.png" alt="" />
+            <HeroBackdrop />
             <div className="hero-cine-scrim" />
           </div>
           <div className="shell">
             <div className="hero-cine-grid">
               <Reveal className="hero-cine-copy">
-                <span className="eyebrow">Vous le configurez. Il n’a qu’à appuyer.</span>
                 <h1 className="h-display hero-h1">
-                  Redonnez à chaque appel<br />
-                  la simplicité d’un <span className="mark">visage familier.
+                  Rester proches,<br />
+                  même à <span className="mark">distance.
                     <svg viewBox="0 0 320 20" preserveAspectRatio="none"><path d="M6 13 C 80 4 240 4 314 11" /></svg>
                   </span>
                 </h1>
                 <p className="lead">
-                  PicPhone remplace les menus, les icônes et les mots de passe par des visages.
-                  Votre parent appuie sur la photo de sa fille, de son fils, de son petit-fils —
-                  et l’appel démarre.
-                </p>
-                <p className="hero-assure-line">
-                  Configurez PicPhone en quelques minutes, depuis votre propre téléphone.
+                  PicPhone permet aux personnes âgées d’appeler et de voir leurs proches en un geste,
+                  simplement en cliquant sur leur photo.
                 </p>
                 <div className="hero-actions">
-                  <a className="btn btn-primary btn-lg" href={TRIAL_ANCHOR}>{TRIAL_LABEL} <ArrowRight size={18} /></a>
+                  <a className="btn btn-primary btn-lg" href={DISCOVER_ANCHOR}>{DISCOVER_LABEL} <ArrowRight size={18} /></a>
                 </div>
-                <p className="hero-micro">{TRIAL_MICRO}</p>
               </Reveal>
               <div className="hero-cine-stage" aria-hidden />
             </div>
           </div>
         </section>
 
-        {/* ============ PROMISE STRIP ============ */}
-        <section className="promise">
-          <div className="shell promise-inner">
-            {promise.map(({ icon, title, sub }) => (
-              <div className="promise-item" key={title + sub}>
-                <img className="promise-ic" src={icon} alt="" aria-hidden />
-                <p>{title}<span>{sub}</span></p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ============ 1.2 — BÉNÉFICE CENTRAL ============ */}
-        <section id="benefice" className="section benefice">
+        {/* ============ 02 — LE CONSTAT ============ */}
+        <section id="constat" className="section constat">
           <div className="shell">
-            <Reveal className="head bene-head">
-              <SectionIndex n="01" label="Le bénéfice" center />
-              <h2 className="h-section">Moins d’écrans à comprendre.<br />Plus d’appels qui <Underline>arrivent.</Underline></h2>
+            <Reveal className="head eh-center">
+              <SectionIndex n="01" label="Le constat" center />
+              <h2 className="h-section">La technologie <Underline>isole</Underline> les seniors</h2>
               <p>
-                Beaucoup de personnes âgées arrêtent d’appeler, non pas par manque d’envie, mais
-                parce que le téléphone est devenu difficile. Trop d’applications, trop d’étapes,
-                la crainte de se tromper. Petit à petit, les appels s’espacent.
+                En France, de nombreux seniors vivent seuls et voient leurs proches moins souvent. Et
+                lorsque la technologie devient trop compliquée, elle peut parfois renforcer cette distance
+                au lieu de la réduire.
               </p>
-              <p className="bene-turn">PicPhone enlève tout ça.</p>
-            </Reveal>
-
-            <Reveal className="bene-lines" delay={0.1}>
-              {benefitLines.map((line) => (
-                <p key={line}><i aria-hidden /> {line}</p>
-              ))}
-            </Reveal>
-
-            <Reveal className="bene-bridge" delay={0.18}>
-              <span>Et du côté de la famille, on voit que le lien tient.</span>
             </Reveal>
           </div>
         </section>
 
-        {/* ============ 1.3 — ÉCRAN PAR ÉCRAN (vraies captures) ============ */}
-        <section id="ecrans" className="section ecrans">
-          <div className="shell">
+        {/* ============ 03 — LA SOLUTION ============ */}
+        <section id="solution" className="section">
+          <div className="shell eh-why-grid">
             <Reveal className="head">
-              <SectionIndex n="02" label="Dans l’application" />
-              <h2 className="h-section">Ce que ça change,<br />écran par <Underline>écran.</Underline></h2>
+              <SectionIndex n="02" label="La solution" />
+              <h2 className="h-section">Appeler ses proches, simplement.<br />Des solutions pensées pour le quotidien.</h2>
+              <p>
+                Avec PicPhone, le senior retrouve ses proches en un geste : il suffit d’appuyer sur une
+                photo pour lancer un appel audio ou vidéo. L’application l’accompagne aussi jour après jour
+                avec des rappels utiles, tels que rendez-vous médicaux, prise de médicaments, hydratation,
+                activité physique. PicPhone réunit ainsi le lien avec les proches et l’accompagnement du
+                quotidien, dans une seule interface, pensée pour être simple.
+              </p>
             </Reveal>
+            <Reveal delay={0.12}>
+              <VideoPreview
+                src="/images/app/senior-accueil.jpg"
+                alt="Interface PicPhone côté senior : les visages des proches et les rappels du quotidien"
+                label="Vidéo de démonstration — à venir"
+              />
+            </Reveal>
+          </div>
+        </section>
 
-            <div className="ecrans-grid">
-              {screens.map(({ src, alt, title, text }, i) => (
-                <Reveal className="ecran" key={title} delay={0.08 * i}>
-                  <div className="ecran-phone">
-                    <PhoneFrame width={208} statusBar={false}><AppScreenshot src={src} alt={alt} cropTop={0} /></PhoneFrame>
-                  </div>
+        {/* ============ 04 — POUR QUI ? ============ */}
+        <section id="pourqui" className="section pourqui">
+          <div className="shell">
+            <Reveal className="head eh-center">
+              <SectionIndex n="03" label="Pour qui ?" center />
+              <h2 className="h-section">Une application pour chacun.</h2>
+            </Reveal>
+            <div className="pourqui-grid">
+              {audiences.map(({ Icon, tag, title, text, points, tint }, i) => (
+                <Reveal className={`eh-card t-${tint}`} key={title} delay={i * 0.1}>
+                  <span className="eh-card-ic"><Icon size={24} /></span>
+                  <span className="eh-card-tag">{tag}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                  <ul className="eh-card-list">
+                    {points.map((p) => <li key={p}><i aria-hidden />{p}</li>)}
+                  </ul>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ 05 — COMMENT ÇA MARCHE ? ============ */}
+        <section id="comment" className="section eh-deploy">
+          <div className="shell">
+            <Reveal className="head eh-center">
+              <SectionIndex n="04" label="Comment ça marche ?" center />
+              <h2 className="h-section">PicPhone se met en place en 3 étapes.</h2>
+            </Reveal>
+            <div className="eh-deploy-flow">
+              {steps.map(({ num, Icon, title, text }, i) => (
+                <Reveal className="eh-deploy-step" key={num} delay={i * 0.12}>
+                  <span className="eh-deploy-num"><Icon size={22} /><i>{num}</i></span>
                   <h3>{title}</h3>
                   <p>{text}</p>
                 </Reveal>
               ))}
             </div>
-
-            {/* Visuel de transition — l'encombrement, ramené à un seul point d'entrée */}
-            <Reveal className="ecrans-turn" delay={0.1}>
-              <AppClutter />
-              <p className="ecrans-turn-cap">Toutes les façons de s’appeler, ramenées à une seule.</p>
-            </Reveal>
           </div>
         </section>
 
-        {/* ============ 2 — CARROUSEL « De l'aidant au senior » ============ */}
-        <section id="parcours" className="section parcours">
+        {/* ============ 06 — DÉMONSTRATION DE L’APPLICATION ============ */}
+        <section id="demo" className="section demo">
           <div className="shell">
-            <Reveal className="head">
-              <SectionIndex n="03" label="De l’aidant au senior" />
-              <h2 className="h-section">Cinq images,<br />et tout est <Underline>dit.</Underline></h2>
+            <Reveal className="head eh-center">
+              <SectionIndex n="05" label="Démonstration" center />
+              <h2 className="h-section">Plus qu’un appel, une présence <Underline>au quotidien.</Underline></h2>
+              <p>
+                La vidéo doit permettre de voir clairement l’interface et les fonctionnalités : appels
+                audio et vidéo, photos des proches et rappels du quotidien.
+              </p>
             </Reveal>
-          </div>
-          <Reveal delay={0.08}>
-            <div className="shell parcours-shell">
-              <JourneyCarousel />
-            </div>
-          </Reveal>
-        </section>
-
-        {/* ============ LE LIEN — l'isolement, la raison d'être ============ */}
-        <section id="lien" className="brand on-dark grain">
-          <div className="brand-grid">
-            <Reveal className="brand-copy">
-              <SectionIndex n="04" label="Le lien retrouvé" />
-              <h2>On croit qu’ils s’éloignent.<br />En réalité, ils n’y arrivent <Underline>plus.</Underline></h2>
-              <p>PicPhone ne demande rien au senior : pas de mise à jour, pas de mot de passe, pas d’application à apprendre. Juste des visages connus. Et des nouvelles qui reviennent.</p>
-              <div className="brand-proof">
-                {brandProof.map(({ Icon, label }) => (
-                  <span key={label}><Icon size={16} /> {label}</span>
-                ))}
-              </div>
-              <div className="brand-stats">
-                <div className="brand-stat">
-                  <strong>750 000</strong>
-                  <span>seniors en situation d’isolement en France</span>
-                </div>
-                <p className="brand-note">
-                  L’isolement n’est pas qu’une tristesse. C’est un facteur de risque reconnu pour la santé.
-                </p>
-              </div>
+            <Reveal delay={0.1}>
+              <VideoPreview
+                src="/images/app/aidant-tableau-de-bord.jpg"
+                alt="Tableau de bord de l’aidant, avec les proches, les rappels et l’activité du senior"
+                width={300}
+              />
             </Reveal>
-            <div className="brand-media">
-              <img src="/images/ephad.png" alt="Une senior en appel vidéo avec un proche, reliée par un ruban lumineux" loading="lazy" />
-            </div>
           </div>
         </section>
 
-        {/* ============ TÉMOIGNAGES ============ */}
-        <section id="familles" className="section tstm">
+        {/* ============ 07 — TÉMOIGNAGES ============ */}
+        <section id="temoignages" className="section tstm">
           <div className="shell">
-            <Reveal className="head">
-              <SectionIndex n="05" label="Ce qu’en disent les familles" />
-              <h2 className="h-section">Ce qui change,<br />ce sont les <Underline>habitudes.</Underline></h2>
+            <Reveal className="head eh-center">
+              <SectionIndex n="06" label="Témoignages" center />
+              <h2 className="h-section">Ils restent proches grâce à <Underline>PicPhone.</Underline></h2>
             </Reveal>
-            <div className="tstm-grid">
-              <Reveal className={`tcard feature ${testimonials.feature.tint}`}>
-                <div className="tstars" aria-label="Cinq étoiles sur cinq">{[0, 1, 2, 3, 4].map((i) => <Star key={i} size={17} fill="currentColor" strokeWidth={0} />)}</div>
-                <blockquote>{testimonials.feature.body}</blockquote>
-                <figcaption className="tcap">
-                  <span className="tavatar" aria-hidden>{testimonials.feature.initial}</span>
-                  <span><strong>{testimonials.feature.name}</strong><small>{testimonials.feature.role}</small></span>
-                </figcaption>
-              </Reveal>
-              {testimonials.side.map((t, i) => (
-                <Reveal className={`tcard ${t.tint}`} key={t.name} delay={0.12 + i * 0.1}>
-                  <div className="tstars" aria-label="Cinq étoiles sur cinq">{[0, 1, 2, 3, 4].map((n) => <Star key={n} size={14} fill="currentColor" strokeWidth={0} />)}</div>
-                  <blockquote>{t.body}</blockquote>
-                  <figcaption className="tcap">
-                    <span className="tavatar" aria-hidden>{t.initial}</span>
-                    <span><strong>{t.name}</strong><small>{t.role}</small></span>
-                  </figcaption>
+            <div className="tstm-grid placeholder-grid">
+              {testimonialSlots.map((n, i) => (
+                <Reveal className="tcard placeholder" key={n} delay={i * 0.1}>
+                  <span className="tavatar placeholder-av" aria-hidden><MessageCircleHeart size={20} /></span>
+                  <blockquote>
+                    Emplacement réservé pour le témoignage {String(n).padStart(2, '0')} — à recueillir
+                    auprès d’une famille utilisatrice, avec son accord, avant publication.
+                  </blockquote>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ============ 1.4 — EHPAD, replié, jamais un second bouton ============ */}
-        <section id="residences" className="section-tight residences">
+        {/* ============ 08 — TARIFS ============ */}
+        <section id="tarifs" className="section tarifs">
           <div className="shell">
-            <Reveal>
-              <details className="res-fold">
-                <summary>
-                  <span className="res-sum">
-                    <SectionIndex n="06" label="Résidences" />
-                    <h2 className="h-sub">Rompre l’isolement chambre par chambre</h2>
-                  </span>
-                  <span className="res-icon" aria-hidden />
-                </summary>
-                <div className="res-body">
-                  <p>
-                    Dans une résidence, le lien avec la famille dépend souvent du temps que le
-                    personnel peut y consacrer. PicPhone est installé comme pour une famille :
-                    les proches d’un résident sont ajoutés une fois, et l’appel devient possible
-                    sans accompagnement.
-                  </p>
-                  <p className="res-claim">Le lien ne devrait pas peser sur vos équipes.</p>
-                  <p className="res-note">
-                    C’est la même application que pour les familles. Rien de spécifique à installer,
-                    rien à administrer.
-                  </p>
-                  <a className="tlink" href="#/ehpad">En parler pour votre résidence <ArrowRight size={16} /></a>
-                </div>
-              </details>
+            <Reveal className="head eh-center">
+              <SectionIndex n="07" label="Tarifs" center />
+              <h2 className="h-section">Choisissez la formule qui vous convient.</h2>
+            </Reveal>
+            <Reveal className="parrain-banner" delay={0.08}>
+              <Gift size={18} /> Pour tout parrainage, vous obtenez un mois gratuit en tant qu’aidant.
+            </Reveal>
+            <div className="price-grid">
+              {plans.map(({ name, price, note, features, highlight }, i) => (
+                <Reveal className={highlight ? 'price-card is-highlight' : 'price-card'} key={name} delay={i * 0.1}>
+                  {highlight && <span className="price-tag">Formule la plus choisie</span>}
+                  <h3>{name}</h3>
+                  <p className="price-value">{price}</p>
+                  <p className="price-note">{note} · indicatif, en cours de validation</p>
+                  <ul>
+                    {features.map((f) => <li key={f}><Check size={16} />{f}</li>)}
+                  </ul>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal className="tarifs-cta" delay={0.2}>
+              <a className="btn btn-primary btn-lg" href={TRIAL_START}>{TRIAL_LABEL} <ArrowRight size={18} /></a>
             </Reveal>
           </div>
         </section>
 
-        {/* ============ FAQ ============ */}
+        {/* ============ 09 — FAQ / AIDE ============ */}
         <section id="faq" className="section faq">
           <div className="shell faq-grid">
-            <Reveal className="faq-aside">
-              <SectionIndex n="07" label="FAQ" />
-              <h2 className="h-section">Les questions que les familles se posent.</h2>
-              <p>Tout ce que les proches nous demandent avant de se lancer. Une autre question ?</p>
-              <a className="tlink" href="mailto:bonjour@picphone.fr">Écrire à notre équipe <ArrowRight size={16} /></a>
+            <Reveal className="faq-aside faq-aside-form">
+              <SectionIndex n="08" label="FAQ / Aide" />
+              <h2 className="h-section">Vos questions, nos réponses.</h2>
+              <p>Une question qui n’est pas dans la liste ? Écrivez-nous.</p>
+              <LeadForm />
             </Reveal>
-            <div className="faq-list">
-              {faqItems.map((item, i) => {
-                const open = openFaq === i
-                return (
-                  <div className={open ? 'faq-item open' : 'faq-item'} key={item.q}>
-                    <button className="faq-q" aria-expanded={open} onClick={() => setOpenFaq(open ? null : i)}>
-                      {item.q}<span className="faq-icon" aria-hidden />
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {open && (
-                        <motion.div className="faq-a" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}>
-                          <p>{item.a}</p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )
-              })}
+            <div className="eh-faq-list">
+              {faqItems.map((item) => (
+                <details className="eh-faq-item" key={item.q}>
+                  <summary>{item.q}<span className="eh-faq-icon" aria-hidden /></summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ============ STATEMENT ============ */}
-        <section id="statement" className="statement on-dark grain">
-          <div className="st-glow" />
-          <Reveal>
-            <RibbonSymbol />
-            <blockquote>Le lien avec ceux qu’on aime<br /><em>ne devrait jamais dépendre</em><br />d’un écran compliqué.</blockquote>
-          </Reveal>
+        {/* ============ 10 — CONTACT ============ */}
+        <section id="contact" className="section contact">
+          <div className="shell contact-grid">
+            <Reveal className="head">
+              <SectionIndex n="09" label="Contact" />
+              <h2 className="h-section">Une question ? <Underline>Parlons-en.</Underline></h2>
+              <p>Vous souhaitez en savoir plus sur PicPhone ? Notre équipe est à votre disposition.</p>
+              <div className="contact-info">
+                <a href="mailto:bonjour@picphone.fr"><Mail size={17} /> bonjour@picphone.fr</a>
+                <a href="tel:+33100000000"><Phone size={17} /> 01 00 00 00 00</a>
+                <span><MapPin size={17} /> France</span>
+              </div>
+            </Reveal>
+            <Reveal className="contact-card" delay={0.1}>
+              <LeadForm />
+            </Reveal>
+          </div>
         </section>
 
-        {/* ============ 1.5 — CTA FINAL (le même, unique) ============ */}
+        {/* ============ 11 — CTA FINAL ============ */}
         <section id="cta" className="cta on-blue">
           <div className="shell cta-grid">
             <Reveal className="cta-copy">
-              <h2>Essayez avec quatre personnes qui comptent.</h2>
-              <p>Choisissez jusqu’à quatre contacts, ajoutez leurs photos, et voyez ce que ça change en une semaine.</p>
+              <h2>Le lien commence par un simple appel.</h2>
+              <p>Avec PicPhone, rester proche devient aussi simple qu’appuyer sur une photo.</p>
               <div className="cta-actions">
                 <a className="btn btn-white btn-lg" href={TRIAL_START}>{TRIAL_LABEL} <ArrowRight size={18} /></a>
               </div>

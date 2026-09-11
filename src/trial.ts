@@ -1,10 +1,13 @@
-/** The single call to action of the whole site. One wording, repeated word for
- *  word wherever it appears — the brief allows no competing path.
+/** The two calls to action of the site, word for word wherever they appear.
  *
- *  TRIAL_ANCHOR is the in-page jump to the trial block (used above the fold);
- *  TRIAL_START is the entry into the trial itself.
- *  TODO — point TRIAL_START at the real signup flow once it exists. */
-export const TRIAL_LABEL = 'Essayer gratuitement — jusqu’à 4 contacts'
+ *  DISCOVER_LABEL sits in the hero — it invites scrolling into the story, not
+ *  installing yet, so it jumps to the solution section.
+ *  TRIAL_LABEL is the download itself — repeated at Tarifs and in the final
+ *  CTA. TRIAL_START is the entry into the trial.
+ *  TODO — point TRIAL_START at the real signup/store flow once it exists. */
+export const DISCOVER_LABEL = 'Découvrir PicPhone'
+export const DISCOVER_ANCHOR = '#solution'
+
+export const TRIAL_LABEL = 'Télécharger PicPhone'
 export const TRIAL_MICRO = 'Sans engagement. Aucune étape technique côté senior.'
-export const TRIAL_ANCHOR = '#cta'
 export const TRIAL_START = '#/essai'

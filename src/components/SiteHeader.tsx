@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import Logo from './Logo'
+import { TRIAL_LABEL } from '../trial'
 
 const navLinks = [
-  { label: 'Ce que ça change', href: '#benefice' },
-  { label: 'Fonctionnalités', href: '#/fonctionnalites' },
-  { label: 'Écran par écran', href: '#ecrans' },
+  { label: 'Le constat', href: '#constat' },
+  { label: 'La solution', href: '#solution' },
+  { label: 'Comment ça marche', href: '#comment' },
+  { label: 'Tarifs', href: '#tarifs' },
   { label: 'Pour les établissements', href: '#/ehpad' },
   { label: 'Questions', href: '#faq' },
 ]
@@ -29,8 +31,7 @@ export default function SiteHeader() {
           {navLinks.map((l) => <a key={l.label} href={l.href}>{l.label}</a>)}
         </nav>
         <div className="nav-right">
-          <a className="nav-login" href="#cta">Se connecter</a>
-          <a className="btn btn-primary nav-cta" href="#cta">Essayer gratuitement</a>
+          <a className="btn btn-primary nav-cta" href="#cta">{TRIAL_LABEL}</a>
           <button className="nav-burger" aria-expanded={menuOpen} aria-label="Menu" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -39,8 +40,7 @@ export default function SiteHeader() {
       {menuOpen && (
         <nav className="mobile-menu">
           {navLinks.map((l) => <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}>{l.label}</a>)}
-          <a href="#cta" onClick={() => setMenuOpen(false)}>Se connecter</a>
-          <a href="#cta" onClick={() => setMenuOpen(false)}>Essayer gratuitement</a>
+          <a href="#cta" onClick={() => setMenuOpen(false)}>{TRIAL_LABEL}</a>
         </nav>
       )}
     </header>

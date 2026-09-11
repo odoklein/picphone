@@ -1,4 +1,5 @@
 import Logo from './Logo'
+import { TRIAL_LABEL } from '../trial'
 
 export default function SiteFooter() {
   return (
@@ -15,18 +16,19 @@ export default function SiteFooter() {
           </div>
           <div className="footer-col">
             <h4>Produit</h4>
-            <a href="#benefice">Ce que ça change</a>
-            <a href="#/fonctionnalites">Fonctionnalités &amp; installation</a>
-            <a href="#ecrans">Écran par écran</a>
-            <a href="#residences">Pour les résidences</a>
-            <a href="#cta">Essayer gratuitement</a>
+            <a href="#constat">Le constat</a>
+            <a href="#solution">La solution</a>
+            <a href="#comment">Comment ça marche</a>
+            <a href="#tarifs">Tarifs</a>
+            <a href="#/ehpad">Pour les établissements</a>
+            <a href="#cta">{TRIAL_LABEL}</a>
           </div>
           <div className="footer-col">
             <h4>Ressources</h4>
             <a href="#faq">Questions fréquentes</a>
-            <a href="#lien">Isolement des seniors</a>
-            <a href="#familles">Témoignages de familles</a>
-            <a href="mailto:bonjour@picphone.fr">Support</a>
+            <a href="#constat">Isolement des seniors</a>
+            <a href="#temoignages">Témoignages de familles</a>
+            <a href="#contact">Support</a>
           </div>
           <div className="footer-col">
             <h4>Contact</h4>

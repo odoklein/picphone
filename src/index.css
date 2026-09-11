@@ -16,6 +16,11 @@
   --font-sans: 'Inter', 'Fellix', system-ui, sans-serif;
 }
 
+@keyframes phone-carousel-in {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
 :root {
   /* Brand */
   --blue:#1463FF; --blue-600:#0E4FD6; --blue-700:#0B3FAF;
@@ -130,8 +135,6 @@ section[id] { scroll-margin-top:96px; }
 .nav-center a { color:#44526b; font-size:15px; font-weight:500; letter-spacing:-.005em; white-space:nowrap; transition:color .2s; }
 .nav-center a:hover { color:var(--blue); }
 .nav-right { display:flex; align-items:center; gap:20px; flex:none; }
-.nav-login { font-size:15px; font-weight:500; color:var(--ink); white-space:nowrap; }
-.nav-login:hover { color:var(--blue); }
 .nav-cta { padding:11px 20px; font-size:15px; }
 .nav-burger { display:none; }
 .mobile-menu { display:none; }
@@ -141,7 +144,10 @@ section[id] { scroll-margin-top:96px; }
    ============================================================ */
 .hero-cine { position:relative; overflow:hidden; background:var(--navy); }
 .hero-cine-media { position:absolute; inset:0; z-index:0; }
-.hero-cine-media img { width:100%; height:100%; object-fit:cover; object-position:66% 50%; }
+/* Stacked photographs, one visible at a time — the rotation is a crossfade. */
+.hero-cine-media img { position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:66% 50%; opacity:0; transition:opacity 1.5s var(--ease); }
+.hero-cine-media img.is-on { opacity:1; }
 .hero-cine-scrim { position:absolute; inset:0; background:
   linear-gradient(90deg, rgba(15,24,44,.96) 0%, rgba(15,24,44,.86) 24%, rgba(15,24,44,.52) 44%, rgba(15,24,44,.16) 63%, rgba(15,24,44,0) 80%),
   linear-gradient(0deg, rgba(15,24,44,.42), rgba(15,24,44,0) 32%); }
@@ -322,8 +328,8 @@ section[id] { scroll-margin-top:96px; }
 @media (max-width:760px) {
   :root { --gut:20px; }
   body { font-size:16px; }
-  /* Phone header collapses to logo + burger; the CTA and login live in the menu */
-  .nav-login, .nav-cta { display:none; }
+  /* Phone header collapses to logo + burger; the CTA lives in the menu */
+  .nav-cta { display:none; }
   .promise-inner { grid-template-columns:1fr 1fr; }
   .promise-item:nth-child(odd)::before { display:none; }
   .promise-item:nth-child(3)::before, .promise-item:nth-child(4)::before { content:''; }
@@ -639,11 +645,13 @@ section[id] { scroll-margin-top:96px; }
 /* ============================================================
    HERO — one heading, one button, two quiet lines around it
    ============================================================ */
-/* Sized so « Redonnez à chaque appel » holds on one line inside the copy column —
+/* Sized so « Retrouvez le plaisir » holds on one line inside the copy column —
    the heading's own line break is the only one it should get. */
 .hero-cine-copy { max-width:630px; }
-.hero-h1 { font-size:clamp(29px,3.9vw,51px); line-height:1.08; }
-.hero-h1 .mark > svg { bottom:-.1em; }
+.hero-h1 { font-size:clamp(34px,4.6vw,62px); line-height:1.06; }
+/* Clear of the descenders in « appeler ». */
+.hero-h1 .mark > svg { bottom:-.19em; }
+.hero-cine-copy .lead { max-width:560px; }
 /* The single CTA's label is long and nowrap by default: without min-width:0 its
    min-content stretches the grid column past the shell on narrow screens. */
 .hero-cine-grid > * { min-width:0; }
@@ -909,4 +917,101 @@ section[id] { scroll-margin-top:96px; }
   .ft-install-foot { margin-top:56px; }
   .ft-install-foot span { font-size:14.5px; padding:12px 18px; }
   .ft-cta { padding-block:88px; }
+}
+
+/* ============================================================
+   HOME — brief sections 02–10 (le constat → contact)
+   Reuses the shared eh-* card/grid/flow patterns from the design system
+   rather than duplicating them under a new prefix.
+   ============================================================ */
+
+/* 02 — Le constat: a single centered statement, no screenshot needed */
+.constat { background:var(--grey); }
+
+/* 03 — La solution: .eh-why-grid supplies the two-column layout */
+
+/* 04 — Pour qui: two cards instead of eh-aud's three, same card language */
+.pourqui-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:60px; }
+.eh-card-list { list-style:none; margin:22px 0 0; padding:20px 0 0; border-top:1px solid var(--line); display:grid; gap:12px; }
+.eh-card-list li { display:flex; align-items:flex-start; gap:10px; margin:0; color:var(--muted); font-size:15px; line-height:1.5; }
+.eh-card-list li i { flex:none; margin-top:7px; width:6px; height:6px; border-radius:50%; background:var(--blue); }
+.eh-card.t-teal .eh-card-list li i { background:var(--teal); }
+
+/* Video preview (03, 06) — a real screenshot in the site's phone frame,
+   with a decorative play control and a badge naming it plainly as a
+   placeholder for the real demo video. */
+.video-frame { display:flex; flex-direction:column; align-items:center; margin-inline:auto; width:max-content; max-width:100%; }
+.video-frame-phone { position:relative; filter:drop-shadow(0 34px 58px rgba(26,43,74,.22)); }
+.video-frame-play { position:absolute; left:50%; top:42%; transform:translate(-50%,-50%); display:grid; place-items:center;
+  width:60px; height:60px; border-radius:50%; background:rgba(20,99,255,.94); color:#fff; box-shadow:var(--sh-blue); }
+.video-frame-badge { margin-top:20px; display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:99px;
+  background:var(--tint-blue); color:var(--blue-600); font-size:13px; font-weight:600; letter-spacing:-.005em; text-align:center; }
+
+/* 05 — Comment ça marche: .eh-deploy / .eh-deploy-flow supply the 3-step layout */
+
+/* 06 — Démonstration */
+.demo { background:linear-gradient(180deg,#fff,var(--tint-blue-2)); }
+
+/* 07 — Témoignages: three even placeholder slots instead of the 1+2 feature grid */
+.placeholder-grid { grid-template-columns:repeat(3,1fr); grid-template-rows:none; }
+.tcard.placeholder { background:#fff; border:1.5px dashed #c9d6ea; box-shadow:none; align-items:flex-start; }
+.tcard.placeholder:hover { transform:none; }
+.tcard.placeholder blockquote { color:var(--muted); font-family:var(--font-sans); font-weight:400; font-style:italic; font-size:15.5px; line-height:1.6; }
+.placeholder-av { background:var(--tint-blue); color:var(--blue); margin-bottom:20px; }
+
+/* 08 — Tarifs */
+.tarifs { background:var(--grey); }
+.parrain-banner { display:flex; align-items:center; justify-content:center; gap:10px; max-width:640px; margin:36px auto 0;
+  padding:14px 22px; border-radius:99px; background:var(--cream); color:#7A5A16; font-size:15px; font-weight:500; text-align:center; }
+.parrain-banner svg { flex:none; color:#C08A2A; }
+.price-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:44px; align-items:stretch; }
+.price-card { position:relative; padding:36px 32px; border-radius:var(--r-lg); background:#fff; border:1px solid var(--line);
+  box-shadow:var(--sh-sm); display:flex; flex-direction:column; }
+.price-card.is-highlight { border-color:var(--blue); box-shadow:var(--sh-md); }
+.price-tag { position:absolute; top:-13px; left:32px; padding:5px 14px; border-radius:99px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:700; letter-spacing:.03em; }
+.price-card h3 { font-size:21px; letter-spacing:-.015em; margin:0 0 14px; }
+.price-value { margin:0; color:var(--ink); font-family:var(--font-heading); font-weight:600; font-size:26px; letter-spacing:-.02em; }
+.price-note { margin:8px 0 26px; color:var(--muted); font-size:13.5px; }
+.price-card ul { list-style:none; margin:0 0 0; padding:22px 0 0; border-top:1px solid var(--line); display:grid; gap:13px; }
+.price-card li { display:flex; align-items:flex-start; gap:10px; margin:0; color:var(--body); font-size:15px; line-height:1.5; }
+.price-card li svg { flex:none; margin-top:2px; color:var(--teal); }
+.tarifs-cta { text-align:center; margin-top:48px; }
+
+/* 09 — FAQ / Aide: the aside carries a form, so it can't stay sticky */
+.faq-aside-form { position:static; }
+.faq-aside-form .lead-form { margin-top:30px; }
+
+/* 10 — Contact */
+.contact { background:linear-gradient(180deg,var(--tint-blue-2),#fff); }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+.contact-info { display:flex; flex-direction:column; gap:14px; margin-top:32px; }
+.contact-info a, .contact-info span { display:inline-flex; align-items:center; gap:10px; color:var(--ink); font-size:16px; font-weight:500; }
+.contact-info a:hover { color:var(--blue); }
+.contact-info svg { color:var(--blue); flex:none; }
+.contact-card { padding:36px; border-radius:var(--r-lg); background:#fff; border:1px solid var(--line); box-shadow:var(--sh-md); }
+
+/* Shared lead-capture form (FAQ + Contact) — UI-only, no backend yet */
+.lead-form { display:flex; flex-direction:column; gap:16px; }
+.lead-form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.lead-field { display:flex; flex-direction:column; gap:7px; }
+.lead-field label { font-size:13.5px; font-weight:600; color:var(--ink); }
+.lead-field input, .lead-field textarea { width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--line);
+  background:#fff; font:inherit; font-size:15px; color:var(--ink); transition:border-color .2s; }
+.lead-field input:focus, .lead-field textarea:focus { outline:none; border-color:var(--blue); }
+.lead-field textarea { resize:vertical; min-height:96px; }
+.lead-form .btn { align-self:flex-start; margin-top:4px; }
+.lead-form-done { display:flex; align-items:flex-start; gap:12px; padding:22px; border-radius:var(--r-md);
+  background:var(--pteal); color:#1B5359; }
+.lead-form-done svg { flex:none; margin-top:2px; color:var(--teal); }
+.lead-form-done p { margin:0; font-size:15px; line-height:1.5; }
+
+@media (max-width:1080px) {
+  .pourqui-grid, .price-grid, .placeholder-grid { grid-template-columns:1fr; }
+  .contact-grid { grid-template-columns:1fr; gap:44px; }
+}
+@media (max-width:760px) {
+  .lead-form-row { grid-template-columns:1fr; }
+  .parrain-banner { font-size:14px; padding:12px 18px; }
+  .contact-card { padding:26px; }
 }

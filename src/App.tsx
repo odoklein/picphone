@@ -1,14 +1,12 @@
 import { useEffect, useState, type ComponentType } from 'react'
 import Home from './Home'
 import Ehpad from './Ehpad'
-import Fonctionnalites from './Fonctionnalites'
 
 /** Minimal hash router. A hash starting with `#/` selects a page; every other
- *  hash (section anchors like `#ecrans`, or empty) renders the home page.
+ *  hash (section anchors like `#solution`, or empty) renders the home page.
  *  Sub-pages own their own scroll reset, so a second `#anchor` is never needed. */
 const PAGES: Record<string, ComponentType> = {
   '#/ehpad': Ehpad,
-  '#/fonctionnalites': Fonctionnalites,
 }
 
 function useRoute() {
