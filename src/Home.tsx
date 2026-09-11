@@ -44,21 +44,36 @@ const steps = [
    [TÉMOIGNAGE 01/02/03] to collect, not copy to write. */
 const testimonialSlots = [1, 2, 3]
 
-/* Placeholders, not a validated tariff — the brief defers the real pricing
-   proposal. Names and inclusions are indicative, ready to be replaced. */
 const plans = [
   {
-    name: 'Découverte', price: 'Essai gratuit', note: '7 jours, sans carte bancaire',
-    features: ['Jusqu’à 4 contacts avec photo', 'Appels audio et vidéo', 'Rappels du quotidien'],
+    name: 'Gratuit',
+    tagline: 'Pour découvrir PicPhone sans engagement',
+    price: '0',
+    period: '/mois',
+    note: 'Jusqu’à 4 contacts · à vie',
+    features: ['Jusqu’à 4 contacts avec photo', 'Appel vocal & vidéo', 'Messagerie simplifiée'],
+    cta: 'Commencer gratuitement',
   },
   {
-    name: 'Famille', price: 'Tarif à définir', note: 'par mois, un aidant',
-    features: ['Contacts illimités', 'Tous les rappels et widgets', 'Support par e-mail'],
+    name: 'Famille',
+    tagline: 'Pour un lien sans limite avec tous les proches',
+    price: '5,90',
+    period: '/mois',
+    note: 'Dès le 5ᵉ contact · sans engagement',
+    features: [
+      'Contacts illimités avec photo',
+      'Appel vocal & vidéo illimités',
+      'Messagerie simplifiée',
+      'Galerie photos illimitée',
+      'Contacts prioritaires personnalisés',
+      'Rappels personnalisés avancés',
+      'Suivi humeur quotidien',
+      'Bouton SOS',
+      'Météo & rappels quotidiens',
+      'Support aidant prioritaire',
+    ],
+    cta: 'Démarrer gratuitement',
     highlight: true,
-  },
-  {
-    name: 'Famille+', price: 'Tarif à définir', note: 'par mois, plusieurs aidants',
-    features: ['Tout Famille, et plus', 'Plusieurs aidants sur un même profil senior', 'Support prioritaire'],
   },
 ]
 
@@ -243,21 +258,28 @@ export default function Home() {
               <Gift size={18} /> Pour tout parrainage, vous obtenez un mois gratuit en tant qu’aidant.
             </Reveal>
             <div className="price-grid">
-              {plans.map(({ name, price, note, features, highlight }, i) => (
+              {plans.map(({ name, tagline, price, period, note, features, cta, highlight }, i) => (
                 <Reveal className={highlight ? 'price-card is-highlight' : 'price-card'} key={name} delay={i * 0.1}>
-                  {highlight && <span className="price-tag">Formule la plus choisie</span>}
+                  {highlight && <span className="price-badge">Le plus choisi</span>}
                   <h3>{name}</h3>
-                  <p className="price-value">{price}</p>
-                  <p className="price-note">{note} · indicatif, en cours de validation</p>
+                  <p className="price-tagline">{tagline}</p>
+                  <p className="price-value">
+                    <span className="price-currency">€</span>
+                    <span className="price-amount">{price}</span>
+                    <span className="price-period">{period}</span>
+                  </p>
+                  <p className="price-note">{note}</p>
                   <ul>
-                    {features.map((f) => <li key={f}><Check size={16} />{f}</li>)}
+                    {features.map((f) => (
+                      <li key={f}><span className="check-ic"><Check size={13} /></span>{f}</li>
+                    ))}
                   </ul>
+                  <a className={highlight ? 'btn btn-primary price-btn' : 'btn btn-ghost price-btn'} href={TRIAL_START}>
+                    {cta} <ArrowRight size={16} />
+                  </a>
                 </Reveal>
               ))}
             </div>
-            <Reveal className="tarifs-cta" delay={0.2}>
-              <a className="btn btn-primary btn-lg" href={TRIAL_START}>{TRIAL_LABEL} <ArrowRight size={18} /></a>
-            </Reveal>
           </div>
         </section>
 

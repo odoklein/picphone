@@ -964,19 +964,28 @@ section[id] { scroll-margin-top:96px; }
 .parrain-banner { display:flex; align-items:center; justify-content:center; gap:10px; max-width:640px; margin:36px auto 0;
   padding:14px 22px; border-radius:99px; background:var(--cream); color:#7A5A16; font-size:15px; font-weight:500; text-align:center; }
 .parrain-banner svg { flex:none; color:#C08A2A; }
-.price-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:44px; align-items:stretch; }
-.price-card { position:relative; padding:36px 32px; border-radius:var(--r-lg); background:#fff; border:1px solid var(--line);
-  box-shadow:var(--sh-sm); display:flex; flex-direction:column; }
-.price-card.is-highlight { border-color:var(--blue); box-shadow:var(--sh-md); }
-.price-tag { position:absolute; top:-13px; left:32px; padding:5px 14px; border-radius:99px; background:var(--blue); color:#fff;
-  font-size:12px; font-weight:700; letter-spacing:.03em; }
-.price-card h3 { font-size:21px; letter-spacing:-.015em; margin:0 0 14px; }
-.price-value { margin:0; color:var(--ink); font-family:var(--font-heading); font-weight:600; font-size:26px; letter-spacing:-.02em; }
-.price-note { margin:8px 0 26px; color:var(--muted); font-size:13.5px; }
-.price-card ul { list-style:none; margin:0 0 0; padding:22px 0 0; border-top:1px solid var(--line); display:grid; gap:13px; }
-.price-card li { display:flex; align-items:flex-start; gap:10px; margin:0; color:var(--body); font-size:15px; line-height:1.5; }
-.price-card li svg { flex:none; margin-top:2px; color:var(--teal); }
-.tarifs-cta { text-align:center; margin-top:48px; }
+.price-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:32px; margin:44px auto 0; max-width:840px; align-items:stretch; }
+.price-card { position:relative; padding:44px 40px 40px; border-radius:var(--r-lg); background:#fff; border:1px solid var(--line);
+  box-shadow:var(--sh-sm); display:flex; flex-direction:column; transition:transform .3s var(--ease), box-shadow .3s var(--ease); }
+.price-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); }
+.price-card.is-highlight { border:2px solid var(--blue); box-shadow:var(--sh-blue);
+  background:linear-gradient(180deg,#fff,var(--tint-blue-2)); }
+.price-card.is-highlight:hover { transform:translateY(-6px); }
+.price-badge { position:absolute; top:-15px; left:50%; transform:translateX(-50%); padding:7px 20px; border-radius:99px;
+  background:var(--blue); color:#fff; font-size:12.5px; font-weight:700; letter-spacing:.04em; box-shadow:var(--sh-blue); white-space:nowrap; }
+.price-card h3 { font-size:24px; letter-spacing:-.02em; margin:0 0 8px; }
+.price-tagline { margin:0 0 28px; color:var(--muted); font-size:15px; line-height:1.5; min-height:2.6em; }
+.price-value { display:flex; align-items:baseline; gap:3px; margin:0; }
+.price-currency { align-self:flex-start; margin-top:8px; color:var(--ink); font-family:var(--font-heading); font-weight:600; font-size:20px; }
+.price-amount { color:var(--ink); font-family:var(--font-heading); font-weight:700; font-size:46px; line-height:1; letter-spacing:-.03em; }
+.price-period { color:var(--muted); font-size:15px; font-weight:500; margin-left:2px; }
+.price-note { margin:12px 0 0; padding-bottom:26px; border-bottom:1px solid var(--line); color:var(--blue-600); font-size:13.5px; font-weight:600; }
+.price-card ul { list-style:none; margin:0; padding:24px 0 0; display:grid; gap:14px; flex:1; }
+.price-card li { display:flex; align-items:flex-start; gap:11px; margin:0; color:var(--body); font-size:15px; line-height:1.4; }
+.check-ic { display:grid; place-items:center; flex:none; margin-top:1px; width:20px; height:20px; border-radius:50%;
+  background:var(--pteal); color:#217880; }
+.price-card.is-highlight .check-ic { background:var(--tint-blue); color:var(--blue); }
+.price-btn { justify-content:center; width:100%; margin-top:32px; }
 
 /* 09 — FAQ / Aide: the aside carries a form, so it can't stay sticky */
 .faq-aside-form { position:static; }
