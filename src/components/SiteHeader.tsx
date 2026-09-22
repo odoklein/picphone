@@ -6,7 +6,7 @@ import { TRIAL_LABEL } from '../trial'
 const navLinks = [
   { label: 'Le constat', href: '#constat' },
   { label: 'La solution', href: '#solution' },
-  { label: 'Comment ça marche', href: '#comment' },
+  { label: 'Configuration', href: '#configuration' },
   { label: 'Tarifs', href: '#tarifs' },
   { label: 'Pour les établissements', href: '#/ehpad' },
   { label: 'Questions', href: '#faq' },

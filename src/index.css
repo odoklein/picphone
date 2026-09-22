@@ -925,8 +925,49 @@ section[id] { scroll-margin-top:96px; }
    rather than duplicating them under a new prefix.
    ============================================================ */
 
-/* 02 — Le constat: a single centered statement, no screenshot needed */
+/* 02 — Le constat: a four-beat structure asked for by the client —
+   chiffres → constat → problème → réponse — instead of one block of prose. */
 .constat { background:var(--grey); }
+.constat .head { margin-bottom:0; }
+
+/* Chiffres */
+.constat-stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; max-width:920px; margin:56px auto 0; }
+.constat-stat { padding:34px 32px; border-radius:var(--r-lg); background:#fff; border:1px solid var(--line); box-shadow:var(--sh-sm); }
+.constat-stat.is-accent { background:var(--ink); border-color:var(--ink); }
+.constat-stat-fig { display:flex; align-items:baseline; gap:9px; margin:0;
+  font-family:var(--font-heading); color:var(--ink); }
+.constat-stat.is-accent .constat-stat-fig { color:#fff; }
+.constat-stat-val { font-size:clamp(42px,5.4vw,68px); font-weight:700; line-height:1; letter-spacing:-.04em;
+  white-space:nowrap; }
+.constat-stat-unit { font-size:clamp(22px,2.4vw,30px); font-weight:600; letter-spacing:-.02em; }
+.constat-stat-text { margin:14px 0 0; color:var(--muted); font-size:17px; line-height:1.5; }
+.constat-stat.is-accent .constat-stat-text { color:rgba(255,255,255,.76); }
+.constat-precision { grid-column:1 / -1; padding:16px 22px; border-radius:var(--r-sm);
+  background:var(--cream); color:#7A5A16; font-size:15px; line-height:1.55; }
+.constat-precision strong { color:#5E430E; }
+
+/* Constat */
+.constat-said { max-width:740px; margin:64px auto 0; text-align:center; }
+.constat-said p { margin:0; color:var(--muted); font-size:19px; line-height:1.6; }
+.constat-said .constat-claim { margin-top:26px; font-family:var(--font-heading); color:var(--ink);
+  font-size:clamp(28px,3.2vw,42px); font-weight:600; line-height:1.15; letter-spacing:-.025em; }
+
+/* Problème — les trois gestes de trop, montrés plutôt que racontés */
+.constat-friction { display:grid; grid-template-columns:1.05fr .95fr; gap:52px; align-items:center;
+  max-width:1060px; margin:72px auto 0; padding:42px 44px; border-radius:var(--r-lg);
+  background:#fff; border:1px solid var(--line); box-shadow:var(--sh-sm); }
+.constat-friction-head h3 { font-size:clamp(21px,2.2vw,27px); letter-spacing:-.02em; line-height:1.2; margin:0 0 14px; }
+.constat-friction-head p { margin:0; color:var(--muted); font-size:16.5px; line-height:1.65; }
+.constat-friction-list { list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+.constat-friction-item { display:flex; align-items:center; gap:14px; padding:15px 18px; border-radius:var(--r-sm);
+  background:var(--grey); color:var(--ink); font-size:16px; font-weight:500; }
+.constat-friction-ic { display:grid; place-items:center; flex:none; width:40px; height:40px; border-radius:12px;
+  background:#fff; color:#C4553F; box-shadow:var(--sh-sm); }
+
+/* Réponse */
+.constat-answer { display:flex; flex-direction:column; align-items:center; gap:18px; margin-top:56px; text-align:center; }
+.constat-answer p { margin:0; font-family:var(--font-heading); color:var(--ink);
+  font-size:clamp(20px,2.1vw,26px); font-weight:600; letter-spacing:-.02em; }
 
 /* 03 — La solution: .eh-why-grid supplies the two-column layout */
 
@@ -947,10 +988,33 @@ section[id] { scroll-margin-top:96px; }
 .video-frame-badge { margin-top:20px; display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:99px;
   background:var(--tint-blue); color:var(--blue-600); font-size:13px; font-weight:600; letter-spacing:-.005em; text-align:center; }
 
-/* 05 — Comment ça marche: .eh-deploy / .eh-deploy-flow supply the 3-step layout */
+/* 04 — Configuration par l'aidant: six detailed steps beside the caregiver
+   dashboard, on the .eh-deploy background. Replaces both the three generic
+   steps and the Démonstration section, which showed the same app twice. */
+.config-grid { display:grid; grid-template-columns:1.15fr .85fr; gap:60px; align-items:start; margin-top:64px; }
+.config-steps { list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+.config-step { display:flex; gap:18px; padding:24px 26px; border-radius:var(--r-md); background:#fff;
+  border:1px solid var(--line); box-shadow:var(--sh-sm);
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease); }
+.config-step:hover { transform:translateY(-3px); box-shadow:var(--sh-md); }
+.config-step-ic { display:grid; place-items:center; flex:none; width:44px; height:44px; border-radius:14px;
+  background:var(--tint-blue); color:var(--blue); }
+.config-step-body { min-width:0; }
+.config-step-no { display:block; margin-bottom:6px; font-size:12px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); }
+.config-step h3 { font-size:19px; letter-spacing:-.015em; margin:0 0 7px; }
+.config-step p { margin:0; color:var(--muted); font-size:15.5px; line-height:1.6; }
 
-/* 06 — Démonstration */
-.demo { background:linear-gradient(180deg,#fff,var(--tint-blue-2)); }
+.config-aside { position:sticky; top:110px; display:grid; gap:28px; justify-items:center; }
+.config-shot { display:flex; flex-direction:column; align-items:center; gap:16px; margin:0; }
+.config-shot > div { filter:drop-shadow(0 30px 54px rgba(26,43,74,.22)); }
+.config-shot figcaption { color:var(--muted); font-size:14px; font-weight:600; }
+.config-note { width:100%; padding:26px 28px; border-radius:var(--r-lg); background:#fff;
+  border:1px solid var(--line); box-shadow:var(--sh-sm); }
+.config-note h3 { display:flex; align-items:center; gap:10px; font-size:17px; letter-spacing:-.01em; margin:0 0 16px; }
+.config-note h3 svg { flex:none; color:var(--blue); }
+.config-note ul { list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+.config-note li { display:flex; align-items:flex-start; gap:11px; color:var(--body); font-size:15px; line-height:1.5; }
 
 /* 07 — Témoignages: three even placeholder slots instead of the 1+2 feature grid */
 .placeholder-grid { grid-template-columns:repeat(3,1fr); grid-template-rows:none; }
@@ -987,9 +1051,9 @@ section[id] { scroll-margin-top:96px; }
 .price-card.is-highlight .check-ic { background:var(--tint-blue); color:var(--blue); }
 .price-btn { justify-content:center; width:100%; margin-top:32px; }
 
-/* 09 — FAQ / Aide: the aside carries a form, so it can't stay sticky */
-.faq-aside-form { position:static; }
-.faq-aside-form .lead-form { margin-top:30px; }
+/* 07 — FAQ / Aide: questions only. The single contact form lives in section 09,
+   so the aside links there rather than duplicating it. */
+.faq-aside .btn { margin-top:4px; }
 
 /* 10 — Contact */
 .contact { background:linear-gradient(180deg,var(--tint-blue-2),#fff); }
@@ -1018,9 +1082,17 @@ section[id] { scroll-margin-top:96px; }
 @media (max-width:1080px) {
   .pourqui-grid, .price-grid, .placeholder-grid { grid-template-columns:1fr; }
   .contact-grid { grid-template-columns:1fr; gap:44px; }
+  .constat-friction { grid-template-columns:1fr; gap:32px; }
+  .config-grid { grid-template-columns:1fr; gap:44px; }
+  .config-aside { position:static; }
 }
 @media (max-width:760px) {
   .lead-form-row { grid-template-columns:1fr; }
   .parrain-banner { font-size:14px; padding:12px 18px; }
   .contact-card { padding:26px; }
+  .constat-stats { grid-template-columns:1fr; gap:18px; }
+  .constat-stat { padding:26px 24px; }
+  .constat-said, .constat-friction, .constat-answer { margin-top:48px; }
+  .constat-friction { padding:28px 22px; }
+  .config-step { padding:20px; gap:14px; }
 }

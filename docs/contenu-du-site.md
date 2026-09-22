@@ -4,7 +4,13 @@ Relevé exhaustif de tous les textes publiés, page par page, dans l'ordre de
 lecture. Établi le 28 juillet 2026, révisé le 11 septembre 2026 pour refléter
 la refonte de la page d'accueil suivant le brief « Contenu final du site
 web » — la page Fonctionnalités dédiée a été retirée, son contenu étant
-remplacé par les sections Solution et Démonstration ci-dessous.
+remplacé par les sections Solution et Configuration ci-dessous.
+
+Révisé le 21 septembre 2026 d'après le brief « Modifications — retours
+cliente » : section Le constat restructurée et chiffrée, section Comment ça
+marche remplacée par Configuration par l'aidant, section Démonstration
+supprimée (elle montrait la même application que Solution), formulaire de la
+FAQ supprimé au profit du seul formulaire de Contact.
 
 À quoi ça sert : relire la copy sans ouvrir le code, la faire valider, la faire
 traduire, ou retrouver dans quel fichier vit une phrase précise.
@@ -31,8 +37,8 @@ Logo PicPhone, puis :
 | --- | --- |
 | Le constat | Accueil, section 01 |
 | La solution | Accueil, section 02 |
-| Comment ça marche | Accueil, section 04 |
-| Tarifs | Accueil, section 07 |
+| Configuration | Accueil, section 04 |
+| Tarifs | Accueil, section 06 |
 | Pour les établissements | Page Résidences |
 | Questions | Accueil, FAQ |
 | **Télécharger PicPhone** *(bouton)* | Bloc CTA final |
@@ -45,8 +51,8 @@ Sur mobile, tout passe dans le menu déroulant, bouton compris.
 > **Télécharger PicPhone** — à Tarifs et dans le CTA final.
 > *Sans engagement. Aucune étape technique côté senior.*
 
-Un formulaire (FAQ, Contact) a son propre bouton, au mot près :
-**Envoyer ma demande**.
+Le formulaire de Contact — le seul du site — a son propre bouton, au mot
+près : **Envoyer ma demande**.
 
 ## Pied de page — `src/components/SiteFooter.tsx`
 
@@ -58,7 +64,7 @@ Badges *Télécharger sur l'App Store* et *Disponible sur Google Play*.
 | --- | --- | --- |
 | Le constat | Questions fréquentes | bonjour@picphone.fr |
 | La solution | Isolement des seniors | 01 00 00 00 00 |
-| Comment ça marche | Témoignages de familles | Instagram · LinkedIn · Facebook |
+| Configuration par l'aidant | Témoignages de familles | Instagram · LinkedIn · Facebook |
 | Tarifs | Support | |
 | Pour les établissements | | |
 | Télécharger PicPhone | | |
@@ -85,11 +91,47 @@ tournage prévu à ce stade.
 
 ## 02 · Le constat
 
+Quatre temps distincts, dans cet ordre : les chiffres, le constat, le
+problème, la réponse.
+
+**Les chiffres**
+
+| | |
+| --- | --- |
+| **2 millions** | de seniors en situation d'isolement social en France. |
+| **750 000** | d'entre eux sont en situation de mort sociale. |
+
+> « Mort sociale » désigne une situation sans aucun contact humain : ni
+> famille, ni amis, ni voisins, ni société.
+
+**Le constat**
+
 > ## La technologie isole les seniors
 >
-> En France, de nombreux seniors vivent seuls et voient leurs proches moins
-> souvent. Et lorsque la technologie devient trop compliquée, elle peut
-> parfois renforcer cette distance au lieu de la réduire.
+> Leurs proches pensent pourtant à eux toute la journée. Ils aimeraient juste
+> entendre leur voix, voir leur visage.
+>
+> ### Ce n'est pas un problème d'envie. C'est un problème d'accès.
+
+**Le problème** — les trois gestes sont affichés comme trois obstacles, à
+côté du texte, plutôt que noyés dedans.
+
+> ### Trois gestes de trop, avant même d'entendre une voix.
+>
+> Ouvrir la bonne application, retrouver un nom, appuyer au bon endroit…
+> c'est devenu une source d'angoisse. Ce n'est pas l'envie de communiquer qui
+> manque, c'est la peur de faire une erreur face à des outils trop complexes.
+> Et l'isolement s'installe, silencieusement.
+>
+> 1. Ouvrir la bonne application
+> 2. Retrouver un nom dans une liste
+> 3. Appuyer au bon endroit
+
+**La réponse**
+
+> ### PicPhone a été conçu pour lever cette barrière.
+>
+> [ Voir comment → section La solution ]
 
 ## 03 · La solution
 
@@ -122,27 +164,37 @@ toute simplicité.
 - Synchronisation avec le téléphone du senior
 - Une solution pensée pour rassurer les proches
 
-## 05 · Comment ça marche ?
+## 05 · Configuration par l'aidant
 
-> ## PicPhone se met en place en 3 étapes.
+Remplace les deux anciennes sections « Comment ça marche » (trois étapes trop
+générales) et « Démonstration » (qui remontrait l'application déjà présentée
+en 03). Le détail des étapes reprend la spec parcours transmise par la
+cliente — `docs/parcours-4-etapes.md`, étapes 1 et 2.
+
+> ## C'est l'aidant qui configure. Le senior n'a rien à installer.
+>
+> Tout le paramétrage se fait depuis le téléphone de l'aidant, en quelques
+> minutes : les proches, leurs photos, les rappels du quotidien. Le senior,
+> lui, reçoit un écran déjà prêt.
 
 | | Étape | Détail |
 | --- | --- | --- |
-| 01 | L'aidant installe | L'aidant installe et paramètre PicPhone. |
-| 02 | L'aidant synchronise | Les aidants configurent et synchronisent l'interface du senior avec les contacts et les éléments nécessaires à son utilisation. |
-| 03 | C'est prêt | Le senior retrouve une interface simple avec les photos de ses proches et les fonctions utiles à son quotidien. |
+| 01 | L'aidant crée son compte | Une adresse e-mail et un mot de passe, ou une connexion Apple ou Google. Aucun paiement, aucune carte bancaire pour commencer. |
+| 02 | Il indique pour qui | Le prénom du senior, le lien de parenté, et une photo s'il le souhaite. Ces informations servent uniquement à personnaliser la suite du parcours. |
+| 03 | Il ajoute les proches | Pour chaque contact : une photo, le prénom affiché, un numéro. L'aidant place ensuite chaque visage dans la grille du senior, par glisser-déposer. |
+| 04 | Il choisit les rappels du quotidien | Rappel de médicament, météo, message du jour : chaque élément s'active séparément, et reste désactivé tant que l'aidant ne l'a pas choisi. |
+| 05 | Il envoie le code de jumelage | Un code à 8 caractères, transmis par SMS ou par WhatsApp. Le senior le saisit une seule fois, en gros caractères, sur un écran qui ne demande rien d'autre. |
+| 06 | Tout reste synchronisé | Une photo ajoutée, un contact modifié, un rappel déplacé : la mise à jour part aussitôt sur le téléphone du senior, sans aucune manipulation de sa part. |
 
-## 06 · Démonstration de l'application
+En regard : une capture réelle du tableau de bord de l'aidant
+(`/images/app/aidant-tableau-de-bord.jpg`), puis l'encadré **Côté senior,
+rien à faire** :
 
-> ## Plus qu'un appel, une présence au quotidien.
->
-> La vidéo doit permettre de voir clairement l'interface et les
-> fonctionnalités : appels audio et vidéo, photos des proches et rappels du
-> quotidien.
+- Aucun compte, aucun mot de passe, aucune adresse e-mail à créer.
+- Un seul écran au premier lancement : la saisie du code.
+- PicPhone devient l'écran d'accueil : pas de menu où se perdre.
 
-Même traitement d'aperçu que la section 03, dans un cadre plus grand.
-
-## 07 · Témoignages
+## 06 · Témoignages
 
 > ## Ils restent proches grâce à PicPhone.
 
@@ -150,7 +202,7 @@ Même traitement d'aperçu que la section 03, dans un cadre plus grand.
 tels à l'écran (bordure pointillée, texte explicatif), en attendant de
 recueillir de vrais témoignages avec l'accord des familles concernées.
 
-## 08 · Tarifs
+## 07 · Tarifs
 
 > ## Choisissez la formule qui vous convient.
 >
@@ -160,7 +212,7 @@ recueillir de vrais témoignages avec l'accord des familles concernées.
 Famille, Famille+) avec des tarifs marqués « à définir » — aucun prix réel
 n'a encore été validé. CTA : *Télécharger PicPhone*.
 
-## 09 · FAQ / Aide
+## 08 · FAQ / Aide
 
 > ## Vos questions, nos réponses.
 
@@ -181,11 +233,14 @@ n'a encore été validé. CTA : *Télécharger PicPhone*.
 publication** — notamment les affirmations techniques (connexion requise,
 absence d'installation côté proches).
 
-Formulaire (Nom · Prénom · E-mail · Message) intégré à côté des questions.
-CTA : *Envoyer ma demande*. Aucun back-end n'est branché : la validation
-affiche une confirmation locale, rien n'est envoyé pour l'instant.
+**Pas de formulaire dans cette section.** Elle n'affiche que les questions et,
+en regard, un lien *Nous écrire* vers la section Contact — un seul point de
+collecte sur la page.
 
-## 10 · Contact
+> Une question qui n'est pas dans la liste ? Notre équipe vous répond
+> directement. [ Nous écrire ]
+
+## 09 · Contact
 
 > ## Une question ? Parlons-en.
 >
@@ -193,10 +248,11 @@ affiche une confirmation locale, rien n'est envoyé pour l'instant.
 > disposition.
 
 Coordonnées : bonjour@picphone.fr · 01 00 00 00 00 · France.
-Formulaire identique à celui de la FAQ (Nom · Prénom · E-mail · Message),
-CTA *Envoyer ma demande*, même absence de back-end pour l'instant.
+**Seul formulaire du site** (Nom · Prénom · E-mail · Message), CTA *Envoyer
+ma demande*. Aucun back-end n'est branché : la validation affiche une
+confirmation locale, rien n'est envoyé pour l'instant.
 
-## 11 · CTA final
+## 10 · CTA final
 
 > ## Le lien commence par un simple appel.
 >
@@ -237,9 +293,15 @@ l'isolement en EHPAD*.
 - **Les deux boutons ne mènent nulle part de définitif.** `TRIAL_START` dans
   `src/trial.ts` pointe sur un emplacement provisoire (`#/essai`), à brancher
   sur le vrai parcours de téléchargement/inscription.
-- **Les formulaires (FAQ et Contact) sont UI seulement.** Ils confirment la
-  saisie à l'écran mais n'envoient rien : à connecter à un vrai point de
-  collecte (e-mail, CRM…) avant mise en production.
+- **Le formulaire de Contact est UI seulement.** Il confirme la saisie à
+  l'écran mais n'envoie rien : à connecter à un vrai point de collecte
+  (e-mail, CRM…) avant mise en production.
+- **Le code de jumelage est annoncé à 8 caractères** en section 05, comme
+  l'application le génère aujourd'hui, alors que `docs/parcours-4-etapes.md`
+  spécifie 6 chiffres valables 72 h. L'écart est déjà relevé dans cette spec :
+  à trancher côté produit, la page devra suivre.
+- **Les photos restent à retoucher par la cliente**, indépendamment de ces
+  modifications.
 - **Les tarifs affichés sont des placeholders.** Trois formules indicatives,
   aucun prix validé — à remplacer dès que l'offre commerciale est arrêtée.
 - **Les témoignages sont des emplacements vides**, volontairement marqués

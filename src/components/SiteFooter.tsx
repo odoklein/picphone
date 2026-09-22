@@ -18,7 +18,7 @@ export default function SiteFooter() {
             <h4>Produit</h4>
             <a href="#constat">Le constat</a>
             <a href="#solution">La solution</a>
-            <a href="#comment">Comment ça marche</a>
+            <a href="#configuration">Configuration par l’aidant</a>
             <a href="#tarifs">Tarifs</a>
             <a href="#/ehpad">Pour les établissements</a>
             <a href="#cta">{TRIAL_LABEL}</a>

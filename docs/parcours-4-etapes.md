@@ -106,17 +106,21 @@ et réduit l'isolement des seniors.*
 
 ## Ce qui est déjà implémenté dans ce dépôt (site)
 
+Relevé remis à jour le 21 septembre 2026 : la page Fonctionnalités et le
+carrousel de parcours ont disparu de la home lors des refontes successives,
+et les étapes 1 et 2 sont désormais racontées dans la section Configuration.
+
 | Brief | Où |
 | --- | --- |
 | §1.1 Hero, CTA unique | `src/Home.tsx` — section `.hero-cine` |
-| §1.2 Bénéfice central | `src/Home.tsx` — `#benefice` |
-| §1.3 Écran par écran (4 captures réelles) | `src/Home.tsx` — `#ecrans`, images dans `public/images/app/` |
-| Visuel avant/après | `src/components/AppClutter.tsx` |
-| §2 Carrousel 5 vues | `src/components/JourneyCarousel.tsx` — `#parcours` |
-| §1.4 Bloc résidences replié | `src/Home.tsx` — `#residences` |
+| §1.2 Bénéfice central | `src/Home.tsx` — `#solution` |
+| §1.3 Écran par écran (captures réelles) | `src/Home.tsx` — `#solution`, images dans `public/images/app/` |
+| §1.4 Bloc résidences | page dédiée `src/Ehpad.tsx` — `#/ehpad` |
 | §1.5 CTA final | `src/Home.tsx` — `#cta` |
-| §1.7 Le détail produit sorti de la home | `src/Fonctionnalites.tsx` — `#/fonctionnalites` |
-| Étapes 1 et 2 (installation, vus côté marketing) | `src/Fonctionnalites.tsx` — section 04 |
+| Étapes 1 et 2 (configuration et jumelage, vus côté marketing) | `src/Home.tsx` — `#configuration` |
+
+`src/components/JourneyCarousel.tsx` et `src/components/AppClutter.tsx` ne
+sont plus montés par aucune page : à supprimer ou à réemployer.
 
 Le libellé du bouton unique et ses deux destinations sont centralisés dans
 `src/trial.ts` (`TRIAL_LABEL`, `TRIAL_MICRO`, `TRIAL_ANCHOR`, `TRIAL_START`).
@@ -128,5 +132,6 @@ d'essai (étape 1 ci-dessus) dès qu'il existe.
 Le point 6 ci-dessus décrit un code de jumelage « à 6 chiffres, valable 72 h ».
 L'application livrée génère un code **alphanumérique de 8 caractères** (`JL675639`),
 sans durée de validité annoncée, et l'écran senior demande explicitement « le code à
-8 caractères ». La page Fonctionnalités décrit l'application telle qu'elle est.
-À trancher : corriger la spec, ou aligner l'application.
+8 caractères ». La section Configuration du site décrit l'application telle
+qu'elle est, donc « un code à 8 caractères ».
+À trancher : corriger la spec, ou aligner l'application — puis la page suivra.

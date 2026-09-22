@@ -84,11 +84,11 @@ function VueAppel() {
 }
 
 const SLIDES: { key: string; step: string; Visual: () => ReactNode; caption: string }[] = [
-  { key: 'clutter', step: 'Le point de départ', Visual: VueClutter, caption: 'Sept applications pour dire bonjour. Elle n’en ouvre plus aucune.' },
-  { key: 'hesitation', step: 'Trop compliqué', Visual: VueHesitation, caption: 'À force d’hésiter, on n’appelle plus.' },
-  { key: 'setup', step: 'Vous configurez', Visual: VueSetup, caption: 'Vous ajoutez les visages. En quelques minutes, depuis votre téléphone.' },
-  { key: 'simple', step: 'L’écran devient simple', Visual: VueSimple, caption: 'Chez elle, il ne reste que les visages.' },
-  { key: 'appel', step: 'L’appel démarre', Visual: VueAppel, caption: 'Un appui. Et vous êtes là.' },
+  { key: 'clutter', step: 'Le point de départ', Visual: VueClutter, caption: 'Trop d’applications pour dire bonjour.' },
+  { key: 'hesitation', step: 'Trop compliqué', Visual: VueHesitation, caption: 'À force d’hésiter, on renonce.' },
+  { key: 'setup', step: 'Vous configurez', Visual: VueSetup, caption: 'Ajoutez les visages depuis votre téléphone.' },
+  { key: 'simple', step: 'L’écran devient simple', Visual: VueSimple, caption: 'Chez elle, restent les visages.' },
+  { key: 'appel', step: 'L’appel démarre', Visual: VueAppel, caption: 'Un appui, vous êtes là.' },
 ]
 
 /** Swipe-first, five views. Scroll-snap does the work on touch; the dots and

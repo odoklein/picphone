@@ -1,7 +1,8 @@
 import { type ComponentType } from 'react'
 import {
-  ArrowRight, Check, Gift, HeartHandshake, Mail, MapPin, MessageCircleHeart,
-  Mic, Phone, RefreshCw, Smartphone, Smile,
+  AlarmClockCheck, ArrowRight, Check, Gift, Hand, HeartHandshake, ImagePlus, KeyRound,
+  Mail, MapPin, MessageCircleHeart, Mic, Phone, RefreshCw, Search, Smartphone, Smile,
+  UserPlus, UserRoundPlus,
 } from 'lucide-react'
 import SiteHeader from './components/SiteHeader'
 import SiteFooter from './components/SiteFooter'
@@ -19,6 +20,22 @@ import { DISCOVER_ANCHOR, DISCOVER_LABEL, TRIAL_LABEL, TRIAL_MICRO, TRIAL_START 
    Where the brief itself flags content as unfinished — pricing, testimonials —
    the copy below says so plainly instead of inventing figures or people. */
 
+/* 02 — Le constat. Figures and wording come from the client's brief
+   (2 M / 750 000, « mort sociale », « problème d'accès ») and are laid out as
+   chiffres → constat → problème → réponse rather than one block of prose. */
+const isolationStats: { value: string; unit?: string; text: string; accent?: boolean }[] = [
+  { value: '2', unit: 'millions', text: 'de seniors en situation d’isolement social en France.' },
+  { value: '750 000', text: 'd’entre eux sont en situation de mort sociale.', accent: true },
+]
+
+/* The three gestures that stand between the senior and a call — the barrier
+   the client asked to make visible rather than describe in a paragraph. */
+const frictions = [
+  { Icon: Search, text: 'Ouvrir la bonne application' },
+  { Icon: UserRoundPlus, text: 'Retrouver un nom dans une liste' },
+  { Icon: Hand, text: 'Appuyer au bon endroit' },
+]
+
 const audiences: { Icon: ComponentType<{ size?: number }>; tag: string; title: string; text: string; points: string[]; tint: string }[] = [
   {
     Icon: Smile, tag: 'Pour les seniors', tint: 'teal',
@@ -34,10 +51,43 @@ const audiences: { Icon: ComponentType<{ size?: number }>; tag: string; title: s
   },
 ]
 
-const steps = [
-  { num: '01', Icon: Smartphone, title: 'L’aidant installe', text: 'L’aidant installe et paramètre PicPhone.' },
-  { num: '02', Icon: RefreshCw, title: 'L’aidant synchronise', text: 'Les aidants configurent et synchronisent l’interface du senior avec les contacts et les éléments nécessaires à son utilisation.' },
-  { num: '03', Icon: Check, title: 'C’est prêt', text: 'Le senior retrouve une interface simple avec les photos de ses proches et les fonctions utiles à son quotidien.' },
+/* 04 — Configuration par l'aidant. Reprend le paramétrage décrit dans la spec
+   parcours transmise par la cliente (docs/parcours-4-etapes.md, étapes 1 et 2),
+   pour montrer concrètement ce que l'aidant fait, écran par écran. Le code de
+   jumelage est décrit tel que l'application le génère aujourd'hui : 8 caractères. */
+const configSteps = [
+  {
+    num: '01', Icon: UserPlus, title: 'L’aidant crée son compte',
+    text: 'Une adresse e-mail et un mot de passe, ou une connexion Apple ou Google. Aucun paiement, aucune carte bancaire pour commencer.',
+  },
+  {
+    num: '02', Icon: Smile, title: 'Il indique pour qui',
+    text: 'Le prénom du senior, le lien de parenté, et une photo s’il le souhaite. Ces informations servent uniquement à personnaliser la suite du parcours.',
+  },
+  {
+    num: '03', Icon: ImagePlus, title: 'Il ajoute les proches',
+    text: 'Pour chaque contact : une photo, le prénom affiché, un numéro. L’aidant place ensuite chaque visage dans la grille du senior, par glisser-déposer.',
+  },
+  {
+    num: '04', Icon: AlarmClockCheck, title: 'Il choisit les rappels du quotidien',
+    text: 'Rappel de médicament, météo, message du jour : chaque élément s’active séparément, et reste désactivé tant que l’aidant ne l’a pas choisi.',
+  },
+  {
+    num: '05', Icon: KeyRound, title: 'Il envoie le code de jumelage',
+    text: 'Un code à 8 caractères, transmis par SMS ou par WhatsApp. Le senior le saisit une seule fois, en gros caractères, sur un écran qui ne demande rien d’autre.',
+  },
+  {
+    num: '06', Icon: RefreshCw, title: 'Tout reste synchronisé',
+    text: 'Une photo ajoutée, un contact modifié, un rappel déplacé : la mise à jour part aussitôt sur le téléphone du senior, sans aucune manipulation de sa part.',
+  },
+]
+
+/* What the senior explicitly never has to do — the counterpart of the six
+   steps above, and the reassurance the caregiver is looking for. */
+const seniorFreeOf = [
+  'Aucun compte, aucun mot de passe, aucune adresse e-mail à créer.',
+  'Un seul écran au premier lancement : la saisie du code.',
+  'PicPhone devient l’écran d’accueil : pas de menu où se perdre.',
 ]
 
 /* Placeholders, not real customers — the brief lists these as
@@ -130,11 +180,62 @@ export default function Home() {
             <Reveal className="head eh-center">
               <SectionIndex n="01" label="Le constat" center />
               <h2 className="h-section">La technologie <Underline>isole</Underline> les seniors</h2>
+            </Reveal>
+
+            {/* Chiffres */}
+            <div className="constat-stats">
+              {isolationStats.map(({ value, unit, text, accent }, i) => (
+                <Reveal className={accent ? 'constat-stat is-accent' : 'constat-stat'} key={value} delay={i * 0.1}>
+                  <p className="constat-stat-fig">
+                    <span className="constat-stat-val">{value}</span>
+                    {unit && <span className="constat-stat-unit">{unit}</span>}
+                  </p>
+                  <p className="constat-stat-text">{text}</p>
+                </Reveal>
+              ))}
+              <Reveal className="constat-precision" delay={0.2}>
+                <strong>« Mort sociale »</strong> désigne une situation sans aucun contact humain :
+                ni famille, ni amis, ni voisins, ni société.
+              </Reveal>
+            </div>
+
+            {/* Constat */}
+            <Reveal className="constat-said" delay={0.08}>
               <p>
-                En France, de nombreux seniors vivent seuls et voient leurs proches moins souvent. Et
-                lorsque la technologie devient trop compliquée, elle peut parfois renforcer cette distance
-                au lieu de la réduire.
+                Leurs proches pensent pourtant à eux toute la journée. Ils aimeraient juste entendre
+                leur voix, voir leur visage.
               </p>
+              <p className="constat-claim">
+                Ce n’est pas un problème d’envie.<br />
+                C’est un <Underline>problème d’accès.</Underline>
+              </p>
+            </Reveal>
+
+            {/* Problème : la complexité des outils, rendue visible */}
+            <div className="constat-friction">
+              <Reveal className="constat-friction-head">
+                <h3>Trois gestes de trop, avant même d’entendre une voix.</h3>
+                <p>
+                  Ouvrir la bonne application, retrouver un nom, appuyer au bon endroit… c’est devenu
+                  une source d’angoisse. Ce n’est pas l’envie de communiquer qui manque, c’est la peur
+                  de faire une erreur face à des outils trop complexes. Et l’isolement s’installe,
+                  silencieusement.
+                </p>
+              </Reveal>
+              <ul className="constat-friction-list">
+                {frictions.map(({ Icon, text }, i) => (
+                  <Reveal as="li" className="constat-friction-item" key={text} delay={i * 0.1}>
+                    <span className="constat-friction-ic" aria-hidden><Icon size={20} /></span>
+                    <span>{text}</span>
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+
+            {/* Réponse */}
+            <Reveal className="constat-answer" delay={0.1}>
+              <p>PicPhone a été conçu pour lever cette barrière.</p>
+              <a className="tlink" href="#solution">Voir comment <ArrowRight size={17} /></a>
             </Reveal>
           </div>
         </section>
@@ -186,51 +287,68 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ 05 — COMMENT ÇA MARCHE ? ============ */}
-        <section id="comment" className="section eh-deploy">
+        {/* ============ 05 — CONFIGURATION PAR L’AIDANT ============
+             Remplace l’ancien couple « Comment ça marche » + « Démonstration » :
+             la démo reprenait la même interface que La solution, sans rien
+             apprendre de plus. Cette section détaille le paramétrage, ce que la
+             précédente ne faisait pas. */}
+        <section id="configuration" className="section eh-deploy config">
           <div className="shell">
             <Reveal className="head eh-center">
-              <SectionIndex n="04" label="Comment ça marche ?" center />
-              <h2 className="h-section">PicPhone se met en place en 3 étapes.</h2>
+              <SectionIndex n="04" label="Configuration par l’aidant" center />
+              <h2 className="h-section">C’est l’aidant qui <Underline>configure.</Underline><br />Le senior n’a rien à installer.</h2>
+              <p>
+                Tout le paramétrage se fait depuis le téléphone de l’aidant, en quelques minutes :
+                les proches, leurs photos, les rappels du quotidien. Le senior, lui, reçoit un écran
+                déjà prêt.
+              </p>
             </Reveal>
-            <div className="eh-deploy-flow">
-              {steps.map(({ num, Icon, title, text }, i) => (
-                <Reveal className="eh-deploy-step" key={num} delay={i * 0.12}>
-                  <span className="eh-deploy-num"><Icon size={22} /><i>{num}</i></span>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
+
+            <div className="config-grid">
+              <ol className="config-steps">
+                {configSteps.map(({ num, Icon, title, text }, i) => (
+                  <Reveal as="li" className="config-step" key={num} delay={i * 0.06}>
+                    <span className="config-step-ic" aria-hidden><Icon size={20} /></span>
+                    <div className="config-step-body">
+                      <span className="config-step-no">Étape {num}</span>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </ol>
+
+              <div className="config-aside">
+                <Reveal delay={0.1}>
+                  <figure className="config-shot">
+                    <PhoneFrame width={252} statusBar={false}>
+                      <AppScreenshot
+                        src="/images/app/aidant-tableau-de-bord.jpg"
+                        alt="Tableau de bord de l’aidant : les proches configurés, les rappels et l’activité du senior"
+                        cropTop={0}
+                      />
+                    </PhoneFrame>
+                    <figcaption>Le tableau de bord de l’aidant</figcaption>
+                  </figure>
                 </Reveal>
-              ))}
+                <Reveal className="config-note" delay={0.16}>
+                  <h3><Smartphone size={18} /> Côté senior, rien à faire</h3>
+                  <ul>
+                    {seniorFreeOf.map((p) => (
+                      <li key={p}><span className="check-ic"><Check size={13} /></span>{p}</li>
+                    ))}
+                  </ul>
+                </Reveal>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ============ 06 — DÉMONSTRATION DE L’APPLICATION ============ */}
-        <section id="demo" className="section demo">
-          <div className="shell">
-            <Reveal className="head eh-center">
-              <SectionIndex n="05" label="Démonstration" center />
-              <h2 className="h-section">Plus qu’un appel, une présence <Underline>au quotidien.</Underline></h2>
-              <p>
-                La vidéo doit permettre de voir clairement l’interface et les fonctionnalités : appels
-                audio et vidéo, photos des proches et rappels du quotidien.
-              </p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <VideoPreview
-                src="/images/app/aidant-tableau-de-bord.jpg"
-                alt="Tableau de bord de l’aidant, avec les proches, les rappels et l’activité du senior"
-                width={300}
-              />
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ============ 07 — TÉMOIGNAGES ============ */}
+        {/* ============ 06 — TÉMOIGNAGES ============ */}
         <section id="temoignages" className="section tstm">
           <div className="shell">
             <Reveal className="head eh-center">
-              <SectionIndex n="06" label="Témoignages" center />
+              <SectionIndex n="05" label="Témoignages" center />
               <h2 className="h-section">Ils restent proches grâce à <Underline>PicPhone.</Underline></h2>
             </Reveal>
             <div className="tstm-grid placeholder-grid">
@@ -247,11 +365,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ 08 — TARIFS ============ */}
+        {/* ============ 07 — TARIFS ============ */}
         <section id="tarifs" className="section tarifs">
           <div className="shell">
             <Reveal className="head eh-center">
-              <SectionIndex n="07" label="Tarifs" center />
+              <SectionIndex n="06" label="Tarifs" center />
               <h2 className="h-section">Choisissez la formule qui vous convient.</h2>
             </Reveal>
             <Reveal className="parrain-banner" delay={0.08}>
@@ -283,14 +401,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ 09 — FAQ / AIDE ============ */}
+        {/* ============ 08 — FAQ / AIDE ============ */}
         <section id="faq" className="section faq">
           <div className="shell faq-grid">
-            <Reveal className="faq-aside faq-aside-form">
-              <SectionIndex n="08" label="FAQ / Aide" />
+            {/* Pas de formulaire ici : un seul point de contact sur la page,
+                celui de la section Contact. L’aside y renvoie. */}
+            <Reveal className="faq-aside">
+              <SectionIndex n="07" label="FAQ / Aide" />
               <h2 className="h-section">Vos questions, nos réponses.</h2>
-              <p>Une question qui n’est pas dans la liste ? Écrivez-nous.</p>
-              <LeadForm />
+              <p>Une question qui n’est pas dans la liste ? Notre équipe vous répond directement.</p>
+              <a className="btn btn-ghost" href="#contact">Nous écrire <ArrowRight size={16} /></a>
             </Reveal>
             <div className="eh-faq-list">
               {faqItems.map((item) => (
@@ -303,11 +423,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ 10 — CONTACT ============ */}
+        {/* ============ 09 — CONTACT ============ */}
         <section id="contact" className="section contact">
           <div className="shell contact-grid">
             <Reveal className="head">
-              <SectionIndex n="09" label="Contact" />
+              <SectionIndex n="08" label="Contact" />
               <h2 className="h-section">Une question ? <Underline>Parlons-en.</Underline></h2>
               <p>Vous souhaitez en savoir plus sur PicPhone ? Notre équipe est à votre disposition.</p>
               <div className="contact-info">
@@ -322,7 +442,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ 11 — CTA FINAL ============ */}
+        {/* ============ 10 — CTA FINAL ============ */}
         <section id="cta" className="cta on-blue">
           <div className="shell cta-grid">
             <Reveal className="cta-copy">
