@@ -2,18 +2,18 @@
 
 /* ============================================================
    PicPhone — premium redesign
-   Display: Fellix (geometric, editorial)   Body: Inter
+   Type: Satoshi, display and body (self-hosted, public/fonts)
    ============================================================ */
 
-@font-face { font-family:'Fellix'; src:url('/Fellix-TRIAL-Light.otf') format('opentype'); font-style:normal; font-weight:300; font-display:swap; }
-@font-face { font-family:'Fellix'; src:url('/Fellix-TRIAL-Regular.otf') format('opentype'); font-style:normal; font-weight:400; font-display:swap; }
-@font-face { font-family:'Fellix'; src:url('/Fellix-TRIAL-Medium.otf') format('opentype'); font-style:normal; font-weight:500; font-display:swap; }
-@font-face { font-family:'Fellix'; src:url('/Fellix-TRIAL-SemiBold.otf') format('opentype'); font-style:normal; font-weight:600; font-display:swap; }
-@font-face { font-family:'Fellix'; src:url('/Fellix-TRIAL-Bold.otf') format('opentype'); font-style:normal; font-weight:700; font-display:swap; }
+@font-face { font-family:'Satoshi'; src:url('/fonts/Satoshi-Regular.woff') format('woff'); font-style:normal; font-weight:400; font-display:swap; }
+@font-face { font-family:'Satoshi'; src:url('/fonts/Satoshi-Italic.woff') format('woff'); font-style:italic; font-weight:400; font-display:swap; }
+@font-face { font-family:'Satoshi'; src:url('/fonts/Satoshi-Medium.woff') format('woff'); font-style:normal; font-weight:500; font-display:swap; }
+/* Satoshi has no SemiBold: the site's many 600s render with Bold. */
+@font-face { font-family:'Satoshi'; src:url('/fonts/Satoshi-Bold.woff') format('woff'); font-style:normal; font-weight:600 700; font-display:swap; }
 
 @theme {
-  --font-heading: 'Fellix', 'Inter', system-ui, sans-serif;
-  --font-sans: 'Inter', 'Fellix', system-ui, sans-serif;
+  --font-heading: 'Satoshi', system-ui, sans-serif;
+  --font-sans: 'Satoshi', system-ui, sans-serif;
 }
 
 @keyframes phone-carousel-in {
@@ -978,7 +978,23 @@ section[id] { scroll-margin-top:96px; }
 .eh-card-list li i { flex:none; margin-top:7px; width:6px; height:6px; border-radius:50%; background:var(--blue); }
 .eh-card.t-teal .eh-card-list li i { background:var(--teal); }
 
-/* Video preview (03, 05) — a real screenshot in the site's phone frame;
+/* 03 — Presentation video: the real brand clip, played inline. Its own
+   frames already show phones, so it sits in a plain rounded card rather
+   than inside PhoneFrame. */
+.pvid { margin:0 auto; width:min(340px,100%); }
+.pvid-frame { position:relative; aspect-ratio:404 / 720; overflow:hidden; border-radius:32px; background:#f3f5fa;
+  box-shadow:var(--sh-lg), 0 0 0 1px var(--line); isolation:isolate; }
+.pvid-video { display:block; width:100%; height:100%; object-fit:cover; cursor:pointer; }
+.pvid-bigplay { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); display:grid; place-items:center;
+  width:68px; height:68px; padding:0; border:none; border-radius:50%; background:rgba(20,99,255,.94); color:#fff;
+  box-shadow:var(--sh-blue); cursor:pointer; }
+.pvid-controls { position:absolute; right:14px; bottom:14px; display:flex; gap:8px; }
+.pvid-controls button { display:grid; place-items:center; width:40px; height:40px; padding:0; border:none; border-radius:50%;
+  background:rgba(26,43,74,.72); color:#fff; backdrop-filter:blur(6px); cursor:pointer; transition:background .2s ease; }
+.pvid-controls button:hover { background:rgba(26,43,74,.92); }
+.pvid :focus-visible { outline:3px solid var(--blue); outline-offset:3px; }
+
+/* Video preview (05) — a real screenshot in the site's phone frame;
    clicking it opens the demo player (.demo) below. */
 .video-frame { display:flex; flex-direction:column; align-items:center; margin-inline:auto; width:max-content; max-width:100%; }
 .video-frame-phone { position:relative; display:block; border:none; padding:0; background:none; cursor:pointer;

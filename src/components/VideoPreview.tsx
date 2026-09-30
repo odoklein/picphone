@@ -20,8 +20,6 @@ interface VideoPreviewProps {
   alt: string
   slides: DemoSlide[]
   label: string
-  /** Phone width in px — bigger for the full démonstration section, smaller
-   *  alongside copy in La solution. */
   width?: number
   className?: string
 }

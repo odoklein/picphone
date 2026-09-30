@@ -10,6 +10,7 @@ import PhoneFrame from './components/PhoneFrame'
 import AppScreenshot from './components/AppScreenshot'
 import HeroBackdrop from './components/HeroBackdrop'
 import VideoPreview, { type DemoSlide } from './components/VideoPreview'
+import PresentationVideo from './components/PresentationVideo'
 import LeadForm from './components/LeadForm'
 import Reveal from './components/Reveal'
 import { SectionIndex, Underline } from './components/Editorial'
@@ -92,37 +93,6 @@ const configSteps: {
 ]
 
 const configDemo: DemoSlide[] = configSteps.map(({ title, text, shot }) => ({ ...shot, caption: title, detail: text }))
-
-/* 03 — La solution. What the senior sees, in the order a first use goes:
-   the faces, a call, a message, a reminder, the SOS. */
-const seniorDemo: DemoSlide[] = [
-  {
-    src: '/images/app/senior-accueil.jpg', alt: 'L’écran d’accueil du senior : les visages de ses proches', tap: [26, 47],
-    caption: 'Les proches, en photo',
-    detail: 'L’écran d’accueil ne montre que des visages familiers. Pas de liste de contacts, pas de menus.',
-  },
-  {
-    src: '/images/app/senior-appel.jpg', alt: 'Écran d’appel : appel audio, vidéo, message ou message vocal', tap: [26, 69],
-    caption: 'Un appui, l’appel démarre',
-    detail: 'Appel audio ou vidéo, sur de grands boutons colorés, sans rien chercher.',
-  },
-  {
-    src: '/images/app/senior-message.jpg', alt: 'Envoyer un message : le senior choisit la photo du proche', tap: [72, 31],
-    caption: 'Un message, en choisissant un visage',
-    detail: 'Pour écrire, le senior choisit simplement la photo du proche concerné.',
-  },
-  {
-    src: '/images/app/senior-rappels.jpg', alt: 'Rappel de médicament affiché sur l’écran du senior', tap: [85, 15.5],
-    caption: 'Les rappels du quotidien',
-    detail: 'Médicament, rendez-vous, hydratation : le rappel s’affiche, le senior le valide d’un appui.',
-  },
-  {
-    src: '/images/app/senior-sos.jpg', alt: 'Fenêtre de confirmation de l’appel SOS', tap: [50, 60],
-    caption: 'Le bouton SOS, toujours à portée',
-    detail: 'En cas de besoin, un appui appelle immédiatement le contact d’urgence.',
-  },
-]
-
 /* What the senior explicitly never has to do — the counterpart of the six
    steps above, and the reassurance the caregiver is looking for. */
 const seniorFreeOf = [
@@ -296,11 +266,11 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={0.12}>
-              <VideoPreview
-                src="/images/app/senior-accueil.jpg"
-                alt="Interface PicPhone côté senior : les visages des proches et les rappels du quotidien"
-                label="Voir l’interface senior"
-                slides={seniorDemo}
+              <PresentationVideo
+                src="/videos/picphone-presentation.mp4"
+                poster="/videos/picphone-presentation-poster.jpg"
+                title="Vidéo de présentation de PicPhone"
+                transcript="Vidéo de présentation de PicPhone. Trop d’écrans. Rester proche. Quelques réglages suffisent ! Puis tout fonctionne, naturellement. Plus qu’un appel : une présence au quotidien."
               />
             </Reveal>
           </div>
