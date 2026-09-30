@@ -9,7 +9,7 @@ import SiteFooter from './components/SiteFooter'
 import PhoneFrame from './components/PhoneFrame'
 import AppScreenshot from './components/AppScreenshot'
 import HeroBackdrop from './components/HeroBackdrop'
-import VideoPreview from './components/VideoPreview'
+import VideoPreview, { type DemoSlide } from './components/VideoPreview'
 import LeadForm from './components/LeadForm'
 import Reveal from './components/Reveal'
 import { SectionIndex, Underline } from './components/Editorial'
@@ -55,30 +55,71 @@ const audiences: { Icon: ComponentType<{ size?: number }>; tag: string; title: s
    parcours transmise par la cliente (docs/parcours-4-etapes.md, étapes 1 et 2),
    pour montrer concrètement ce que l'aidant fait, écran par écran. Le code de
    jumelage est décrit tel que l'application le génère aujourd'hui : 8 caractères. */
-const configSteps = [
+const configSteps: {
+  num: string; Icon: ComponentType<{ size?: number }>; title: string; text: string
+  shot: { src: string; alt: string; tap?: [number, number] }
+}[] = [
   {
     num: '01', Icon: UserPlus, title: 'L’aidant crée son compte',
     text: 'Une adresse e-mail et un mot de passe, ou une connexion Apple ou Google. Aucun paiement, aucune carte bancaire pour commencer.',
+    shot: { src: '/images/app/aidant-compte.jpg', alt: 'Formulaire de création du compte aidant', tap: [50, 92] },
   },
   {
     num: '02', Icon: Smile, title: 'Il indique pour qui',
     text: 'Le prénom du senior, le lien de parenté, et une photo s’il le souhaite. Ces informations servent uniquement à personnaliser la suite du parcours.',
+    shot: { src: '/images/app/aidant-profil-senior.jpg', alt: 'Formulaire « Ajouter un senior » : photo, prénom, nom, téléphone', tap: [50, 35.5] },
   },
   {
     num: '03', Icon: ImagePlus, title: 'Il ajoute les proches',
     text: 'Pour chaque contact : une photo, le prénom affiché, un numéro. L’aidant place ensuite chaque visage dans la grille du senior, par glisser-déposer.',
+    shot: { src: '/images/app/aidant-nouveau-contact.jpg', alt: 'Formulaire « Nouveau contact » : photo, prénom, lien, contact prioritaire', tap: [50, 18] },
   },
   {
     num: '04', Icon: AlarmClockCheck, title: 'Il choisit les rappels du quotidien',
     text: 'Rappel de médicament, météo, message du jour : chaque élément s’active séparément, et reste désactivé tant que l’aidant ne l’a pas choisi.',
+    shot: { src: '/images/app/aidant-widgets.jpg', alt: 'Liste des rappels à configurer : hydratation, médicaments, rendez-vous, exercice, repas', tap: [80, 27] },
   },
   {
     num: '05', Icon: KeyRound, title: 'Il envoie le code de jumelage',
     text: 'Un code à 8 caractères, transmis par SMS ou par WhatsApp. Le senior le saisit une seule fois, en gros caractères, sur un écran qui ne demande rien d’autre.',
+    shot: { src: '/images/app/aidant-code-appairage.jpg', alt: 'Écran du code d’appairage à saisir sur le téléphone du senior', tap: [50, 42] },
   },
   {
     num: '06', Icon: RefreshCw, title: 'Tout reste synchronisé',
     text: 'Une photo ajoutée, un contact modifié, un rappel déplacé : la mise à jour part aussitôt sur le téléphone du senior, sans aucune manipulation de sa part.',
+    shot: { src: '/images/app/aidant-tableau-de-bord.jpg', alt: 'Tableau de bord de l’aidant : humeur du senior et dernière mise à jour' },
+  },
+]
+
+const configDemo: DemoSlide[] = configSteps.map(({ title, text, shot }) => ({ ...shot, caption: title, detail: text }))
+
+/* 03 — La solution. What the senior sees, in the order a first use goes:
+   the faces, a call, a message, a reminder, the SOS. */
+const seniorDemo: DemoSlide[] = [
+  {
+    src: '/images/app/senior-accueil.jpg', alt: 'L’écran d’accueil du senior : les visages de ses proches', tap: [26, 47],
+    caption: 'Les proches, en photo',
+    detail: 'L’écran d’accueil ne montre que des visages familiers. Pas de liste de contacts, pas de menus.',
+  },
+  {
+    src: '/images/app/senior-appel.jpg', alt: 'Écran d’appel : appel audio, vidéo, message ou message vocal', tap: [26, 69],
+    caption: 'Un appui, l’appel démarre',
+    detail: 'Appel audio ou vidéo, sur de grands boutons colorés, sans rien chercher.',
+  },
+  {
+    src: '/images/app/senior-message.jpg', alt: 'Envoyer un message : le senior choisit la photo du proche', tap: [72, 31],
+    caption: 'Un message, en choisissant un visage',
+    detail: 'Pour écrire, le senior choisit simplement la photo du proche concerné.',
+  },
+  {
+    src: '/images/app/senior-rappels.jpg', alt: 'Rappel de médicament affiché sur l’écran du senior', tap: [85, 15.5],
+    caption: 'Les rappels du quotidien',
+    detail: 'Médicament, rendez-vous, hydratation : le rappel s’affiche, le senior le valide d’un appui.',
+  },
+  {
+    src: '/images/app/senior-sos.jpg', alt: 'Fenêtre de confirmation de l’appel SOS', tap: [50, 60],
+    caption: 'Le bouton SOS, toujours à portée',
+    detail: 'En cas de besoin, un appui appelle immédiatement le contact d’urgence.',
   },
 ]
 
@@ -258,7 +299,8 @@ export default function Home() {
               <VideoPreview
                 src="/images/app/senior-accueil.jpg"
                 alt="Interface PicPhone côté senior : les visages des proches et les rappels du quotidien"
-                label="Vidéo de démonstration — à venir"
+                label="Voir l’interface senior"
+                slides={seniorDemo}
               />
             </Reveal>
           </div>
@@ -320,16 +362,13 @@ export default function Home() {
 
               <div className="config-aside">
                 <Reveal delay={0.1}>
-                  <figure className="config-shot">
-                    <PhoneFrame width={252} statusBar={false}>
-                      <AppScreenshot
-                        src="/images/app/aidant-tableau-de-bord.jpg"
-                        alt="Tableau de bord de l’aidant : les proches configurés, les rappels et l’activité du senior"
-                        cropTop={0}
-                      />
-                    </PhoneFrame>
-                    <figcaption>Le tableau de bord de l’aidant</figcaption>
-                  </figure>
+                  <VideoPreview
+                    src="/images/app/aidant-tableau-de-bord.jpg"
+                    alt="Tableau de bord de l’aidant : les proches configurés, les rappels et l’activité du senior"
+                    label="Voir le paramétrage, étape par étape"
+                    width={252}
+                    slides={configDemo}
+                  />
                 </Reveal>
                 <Reveal className="config-note" delay={0.16}>
                   <h3><Smartphone size={18} /> Côté senior, rien à faire</h3>
