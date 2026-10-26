@@ -1,8 +1,7 @@
 import { type ComponentType } from 'react'
 import {
-  AlarmClockCheck, ArrowRight, Check, Gift, Hand, HeartHandshake, ImagePlus, KeyRound,
-  Mail, MapPin, MessageCircleHeart, Mic, Phone, RefreshCw, Search, Smartphone, Smile,
-  UserPlus, UserRoundPlus,
+  ArrowRight, Check, Gift, HeartHandshake, ImagePlus, KeyRound,
+  Mail, MapPin, MessageCircleHeart, Phone, Smartphone, Smile,
 } from 'lucide-react'
 import SiteHeader from './components/SiteHeader'
 import SiteFooter from './components/SiteFooter'
@@ -14,28 +13,15 @@ import PresentationVideo from './components/PresentationVideo'
 import LeadForm from './components/LeadForm'
 import Reveal from './components/Reveal'
 import { SectionIndex, Underline } from './components/Editorial'
-import { DISCOVER_ANCHOR, DISCOVER_LABEL, TRIAL_LABEL, TRIAL_MICRO, TRIAL_START } from './trial'
+import {
+  DISCOVER_ANCHOR, DISCOVER_LABEL, DOWNLOAD_APP_LABEL, DOWNLOAD_INFO,
+  TRIAL_LABEL, TRIAL_MICRO, TRIAL_SHORT_LABEL, TRIAL_START,
+} from './trial'
 
 /* ---------- Content ----------
    Follows the validated brief section by section (01 Hero → 11 CTA final).
    Where the brief itself flags content as unfinished — pricing, testimonials —
    the copy below says so plainly instead of inventing figures or people. */
-
-/* 02 — Le constat. Figures and wording come from the client's brief
-   (2 M / 750 000, « mort sociale », « problème d'accès ») and are laid out as
-   chiffres → constat → problème → réponse rather than one block of prose. */
-const isolationStats: { value: string; unit?: string; text: string; accent?: boolean }[] = [
-  { value: '2', unit: 'millions', text: 'de seniors en situation d’isolement social en France.' },
-  { value: '750 000', text: 'd’entre eux sont en situation de mort sociale.', accent: true },
-]
-
-/* The three gestures that stand between the senior and a call — the barrier
-   the client asked to make visible rather than describe in a paragraph. */
-const frictions = [
-  { Icon: Search, text: 'Ouvrir la bonne application' },
-  { Icon: UserRoundPlus, text: 'Retrouver un nom dans une liste' },
-  { Icon: Hand, text: 'Appuyer au bon endroit' },
-]
 
 const audiences: { Icon: ComponentType<{ size?: number }>; tag: string; title: string; text: string; points: string[]; tint: string }[] = [
   {
@@ -52,48 +38,32 @@ const audiences: { Icon: ComponentType<{ size?: number }>; tag: string; title: s
   },
 ]
 
-/* 04 — Configuration par l'aidant. Reprend le paramétrage décrit dans la spec
-   parcours transmise par la cliente (docs/parcours-4-etapes.md, étapes 1 et 2),
-   pour montrer concrètement ce que l'aidant fait, écran par écran. Le code de
-   jumelage est décrit tel que l'application le génère aujourd'hui : 8 caractères. */
+/* 04 — Configuration par l'aidant, en trois étapes. Titres et textes repris
+   du retour client (suivi du 12/10/2026) ; le code de jumelage est celui que
+   l'application génère côté aidant. */
 const configSteps: {
   num: string; Icon: ComponentType<{ size?: number }>; title: string; text: string
   shot: { src: string; alt: string; tap?: [number, number] }
 }[] = [
   {
-    num: '01', Icon: UserPlus, title: 'L’aidant crée son compte',
-    text: 'Une adresse e-mail et un mot de passe, ou une connexion Apple ou Google. Aucun paiement, aucune carte bancaire pour commencer.',
+    num: '01', Icon: Smartphone, title: 'L’aidant installe l’application',
+    text: 'Téléchargez l’application sur votre téléphone depuis l’App Store ou Google Play. Créez votre compte aidant en 5 minutes.',
     shot: { src: '/images/app/aidant-compte.jpg', alt: 'Formulaire de création du compte aidant', tap: [50, 92] },
   },
   {
-    num: '02', Icon: Smile, title: 'Il indique pour qui',
-    text: 'Le prénom du senior, le lien de parenté, et une photo s’il le souhaite. Ces informations servent uniquement à personnaliser la suite du parcours.',
-    shot: { src: '/images/app/aidant-profil-senior.jpg', alt: 'Formulaire « Ajouter un senior » : photo, prénom, nom, téléphone', tap: [50, 35.5] },
-  },
-  {
-    num: '03', Icon: ImagePlus, title: 'Il ajoute les proches',
-    text: 'Pour chaque contact : une photo, le prénom affiché, un numéro. L’aidant place ensuite chaque visage dans la grille du senior, par glisser-déposer.',
+    num: '02', Icon: ImagePlus, title: 'L’aidant configure l’interface',
+    text: 'Ajoutez les proches avec leur photo, choisissez les contacts prioritaires et personnalisez les rappels (médicaments, rendez-vous médicaux…).',
     shot: { src: '/images/app/aidant-nouveau-contact.jpg', alt: 'Formulaire « Nouveau contact » : photo, prénom, lien, contact prioritaire', tap: [50, 18] },
   },
   {
-    num: '04', Icon: AlarmClockCheck, title: 'Il choisit les rappels du quotidien',
-    text: 'Rappel de médicament, météo, message du jour : chaque élément s’active séparément, et reste désactivé tant que l’aidant ne l’a pas choisi.',
-    shot: { src: '/images/app/aidant-widgets.jpg', alt: 'Liste des rappels à configurer : hydratation, médicaments, rendez-vous, exercice, repas', tap: [80, 27] },
-  },
-  {
-    num: '05', Icon: KeyRound, title: 'Il envoie le code de jumelage',
-    text: 'Un code à 8 caractères, transmis par SMS ou par WhatsApp. Le senior le saisit une seule fois, en gros caractères, sur un écran qui ne demande rien d’autre.',
+    num: '03', Icon: KeyRound, title: 'Synchronisation avec le senior',
+    text: 'Le senior télécharge l’application et la jumelle à la vôtre grâce au code que vous recevez en tant qu’aidant. Tout est prêt.',
     shot: { src: '/images/app/aidant-code-appairage.jpg', alt: 'Écran du code d’appairage à saisir sur le téléphone du senior', tap: [50, 42] },
-  },
-  {
-    num: '06', Icon: RefreshCw, title: 'Tout reste synchronisé',
-    text: 'Une photo ajoutée, un contact modifié, un rappel déplacé : la mise à jour part aussitôt sur le téléphone du senior, sans aucune manipulation de sa part.',
-    shot: { src: '/images/app/aidant-tableau-de-bord.jpg', alt: 'Tableau de bord de l’aidant : humeur du senior et dernière mise à jour' },
   },
 ]
 
 const configDemo: DemoSlide[] = configSteps.map(({ title, text, shot }) => ({ ...shot, caption: title, detail: text }))
-/* What the senior explicitly never has to do — the counterpart of the six
+/* What the senior explicitly never has to do — the counterpart of the three
    steps above, and the reassurance the caregiver is looking for. */
 const seniorFreeOf = [
   'Aucun compte, aucun mot de passe, aucune adresse e-mail à créer.',
@@ -113,7 +83,7 @@ const plans = [
     period: '/mois',
     note: 'Jusqu’à 4 contacts · à vie',
     features: ['Jusqu’à 4 contacts avec photo', 'Appel vocal & vidéo', 'Messagerie simplifiée'],
-    cta: 'Commencer gratuitement',
+    cta: TRIAL_LABEL,
   },
   {
     name: 'Famille',
@@ -133,7 +103,7 @@ const plans = [
       'Météo & rappels quotidiens',
       'Support aidant prioritaire',
     ],
-    cta: 'Démarrer gratuitement',
+    cta: TRIAL_SHORT_LABEL,
     highlight: true,
   },
 ]
@@ -173,80 +143,57 @@ export default function Home() {
                   </span>
                 </h1>
                 <p className="lead">
-                  PicPhone permet aux personnes âgées d’appeler et de voir leurs proches en un geste,
-                  simplement en cliquant sur leur photo.
+                  PicPhone, l’application qui permet à un senior d’appeler en audio ou en vidéo,
+                  simplement en cliquant sur une photo.
                 </p>
+                <p className="hero-origin">Conçue par un aidant pour sa maman.</p>
                 <div className="hero-actions">
-                  <a className="btn btn-primary btn-lg" href={DISCOVER_ANCHOR}>{DISCOVER_LABEL} <ArrowRight size={18} /></a>
+                  <a className="btn btn-primary btn-lg" href="#cta">{DOWNLOAD_APP_LABEL} <ArrowRight size={18} /></a>
+                  <a className="tlink" href={DISCOVER_ANCHOR}>{DISCOVER_LABEL} <ArrowRight size={17} /></a>
                 </div>
+                <p className="hero-download-info">{DOWNLOAD_INFO}</p>
               </Reveal>
-              <div className="hero-cine-stage" aria-hidden />
+              {/* Sous la photo de famille, l'interface du senior telle qu'il la voit. */}
+              <div className="hero-cine-stage">
+                <div className="hero-senior">
+                  <PhoneFrame width={216} statusBar={false}>
+                    <AppScreenshot src="/images/app/senior-accueil.jpg" alt="L’écran PicPhone du senior : ses proches en photo, prêts à être appelés" cropTop={0} />
+                  </PhoneFrame>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ============ 02 — LE CONSTAT ============ */}
+        {/* ============ 02 — LE CONSTAT ============
+             La vidéo « trop d'applications » à gauche, le texte à droite. */}
         <section id="constat" className="section constat">
-          <div className="shell">
-            <Reveal className="head eh-center">
-              <SectionIndex n="01" label="Le constat" center />
-              <h2 className="h-section">La technologie <Underline>isole</Underline> les seniors</h2>
+          <div className="shell constat-grid">
+            <Reveal className="constat-media">
+              <PresentationVideo
+                src="/videos/picphone-presentation.mp4"
+                poster="/videos/picphone-presentation-poster.jpg"
+                title="Vidéo : trop d’applications, trop de confusion pour rester en contact"
+                transcript="Trop d’applications. Trop de confusion. Rester proche ne devrait pas être compliqué. Quelques réglages suffisent ! Puis tout fonctionne, naturellement. Plus qu’un appel : une présence au quotidien. PicPhone."
+              />
             </Reveal>
-
-            {/* Chiffres */}
-            <div className="constat-stats">
-              {isolationStats.map(({ value, unit, text, accent }, i) => (
-                <Reveal className={accent ? 'constat-stat is-accent' : 'constat-stat'} key={value} delay={i * 0.1}>
-                  <p className="constat-stat-fig">
-                    <span className="constat-stat-val">{value}</span>
-                    {unit && <span className="constat-stat-unit">{unit}</span>}
-                  </p>
-                  <p className="constat-stat-text">{text}</p>
-                </Reveal>
-              ))}
-              <Reveal className="constat-precision" delay={0.2}>
-                <strong>« Mort sociale »</strong> désigne une situation sans aucun contact humain :
-                ni famille, ni amis, ni voisins, ni société.
-              </Reveal>
-            </div>
-
-            {/* Constat */}
-            <Reveal className="constat-said" delay={0.08}>
+            <Reveal className="constat-copy" delay={0.1}>
+              <SectionIndex n="01" label="Le constat" />
+              <h2 className="h-section">Ce n’est pas aux seniors de s’adapter. C’est à la <Underline>technologie.</Underline></h2>
               <p>
-                Leurs proches pensent pourtant à eux toute la journée. Ils aimeraient juste entendre
-                leur voix, voir leur visage.
+                Pour nous, appeler un proche est un réflexe. Pour beaucoup de seniors, c’est une
+                succession d’étapes où l’on peut se perdre : l’écran à déverrouiller, la bonne
+                application à trouver, le contact à chercher, l’appel, le message ou la vidéo à choisir.
               </p>
-              <p className="constat-claim">
-                Ce n’est pas un problème d’envie.<br />
-                C’est un <Underline>problème d’accès.</Underline>
+              <p>
+                À force de craindre l’erreur, le senior finit par ne plus essayer, et l’isolement
+                s’installe, doucement.
               </p>
-            </Reveal>
-
-            {/* Problème : la complexité des outils, rendue visible */}
-            <div className="constat-friction">
-              <Reveal className="constat-friction-head">
-                <h3>Trois gestes de trop, avant même d’entendre une voix.</h3>
-                <p>
-                  Ouvrir la bonne application, retrouver un nom, appuyer au bon endroit… c’est devenu
-                  une source d’angoisse. Ce n’est pas l’envie de communiquer qui manque, c’est la peur
-                  de faire une erreur face à des outils trop complexes. Et l’isolement s’installe,
-                  silencieusement.
-                </p>
-              </Reveal>
-              <ul className="constat-friction-list">
-                {frictions.map(({ Icon, text }, i) => (
-                  <Reveal as="li" className="constat-friction-item" key={text} delay={i * 0.1}>
-                    <span className="constat-friction-ic" aria-hidden><Icon size={20} /></span>
-                    <span>{text}</span>
-                  </Reveal>
-                ))}
-              </ul>
-            </div>
-
-            {/* Réponse */}
-            <Reveal className="constat-answer" delay={0.1}>
-              <p>PicPhone a été conçu pour lever cette barrière.</p>
-              <a className="tlink" href="#solution">Voir comment <ArrowRight size={17} /></a>
+              <p className="constat-born">PicPhone est né de ce constat.</p>
+              <p>
+                Fini les détours : un seul outil, les visages de ceux qu’on aime apparaissent à
+                l’écran. Plus de menus à explorer. Appeler n’a jamais été aussi simple.
+              </p>
             </Reveal>
           </div>
         </section>
@@ -265,13 +212,11 @@ export default function Home() {
                 quotidien, dans une seule interface, pensée pour être simple.
               </p>
             </Reveal>
+            {/* TODO — remplacer par la vidéo de la solution (interface senior) fournie par Sonia. */}
             <Reveal delay={0.12}>
-              <PresentationVideo
-                src="/videos/picphone-presentation.mp4"
-                poster="/videos/picphone-presentation-poster.jpg"
-                title="Vidéo de présentation de PicPhone"
-                transcript="Vidéo de présentation de PicPhone. Trop d’écrans. Rester proche. Quelques réglages suffisent ! Puis tout fonctionne, naturellement. Plus qu’un appel : une présence au quotidien."
-              />
+              <PhoneFrame width={290} statusBar={false}>
+                <AppScreenshot src="/images/app/senior-appel.jpg" alt="Le senior appelle un proche depuis PicPhone" cropTop={0} />
+              </PhoneFrame>
             </Reveal>
           </div>
         </section>
@@ -308,11 +253,11 @@ export default function Home() {
           <div className="shell">
             <Reveal className="head eh-center">
               <SectionIndex n="04" label="Configuration par l’aidant" center />
-              <h2 className="h-section">C’est l’aidant qui <Underline>configure.</Underline><br />Le senior n’a rien à installer.</h2>
+              <h2 className="h-section">Trois étapes, <Underline>et tout est prêt.</Underline></h2>
               <p>
                 Tout le paramétrage se fait depuis le téléphone de l’aidant, en quelques minutes :
-                les proches, leurs photos, les rappels du quotidien. Le senior, lui, reçoit un écran
-                déjà prêt.
+                les proches, leurs photos, les rappels du quotidien. Le senior, lui, n’a qu’un code
+                à saisir.
               </p>
             </Reveal>
 
@@ -341,7 +286,7 @@ export default function Home() {
                   />
                 </Reveal>
                 <Reveal className="config-note" delay={0.16}>
-                  <h3><Smartphone size={18} /> Côté senior, rien à faire</h3>
+                  <h3><Smartphone size={18} /> Côté senior, un code et c’est tout</h3>
                   <ul>
                     {seniorFreeOf.map((p) => (
                       <li key={p}><span className="check-ic"><Check size={13} /></span>{p}</li>
@@ -353,32 +298,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ 06 — TÉMOIGNAGES ============ */}
-        <section id="temoignages" className="section tstm">
-          <div className="shell">
-            <Reveal className="head eh-center">
-              <SectionIndex n="05" label="Témoignages" center />
-              <h2 className="h-section">Ils restent proches grâce à <Underline>PicPhone.</Underline></h2>
-            </Reveal>
-            <div className="tstm-grid placeholder-grid">
-              {testimonialSlots.map((n, i) => (
-                <Reveal className="tcard placeholder" key={n} delay={i * 0.1}>
-                  <span className="tavatar placeholder-av" aria-hidden><MessageCircleHeart size={20} /></span>
-                  <blockquote>
-                    Emplacement réservé pour le témoignage {String(n).padStart(2, '0')} — à recueillir
-                    auprès d’une famille utilisatrice, avec son accord, avant publication.
-                  </blockquote>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ============ 07 — TARIFS ============ */}
+        {/* ============ 06 — TARIFS ============ */}
         <section id="tarifs" className="section tarifs">
           <div className="shell">
             <Reveal className="head eh-center">
-              <SectionIndex n="06" label="Tarifs" center />
+              <SectionIndex n="05" label="Tarifs" center />
               <h2 className="h-section">Choisissez la formule qui vous convient.</h2>
             </Reveal>
             <Reveal className="parrain-banner" delay={0.08}>
@@ -404,6 +328,27 @@ export default function Home() {
                   <a className={highlight ? 'btn btn-primary price-btn' : 'btn btn-ghost price-btn'} href={TRIAL_START}>
                     {cta} <ArrowRight size={16} />
                   </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ 07 — TÉMOIGNAGES ============ */}
+        <section id="temoignages" className="section tstm">
+          <div className="shell">
+            <Reveal className="head eh-center">
+              <SectionIndex n="06" label="Témoignages" center />
+              <h2 className="h-section">Ils restent proches grâce à <Underline>PicPhone.</Underline></h2>
+            </Reveal>
+            <div className="tstm-grid placeholder-grid">
+              {testimonialSlots.map((n, i) => (
+                <Reveal className="tcard placeholder" key={n} delay={i * 0.1}>
+                  <span className="tavatar placeholder-av" aria-hidden><MessageCircleHeart size={20} /></span>
+                  <blockquote>
+                    Emplacement réservé pour le témoignage {String(n).padStart(2, '0')} — à recueillir
+                    auprès d’une famille utilisatrice, avec son accord, avant publication.
+                  </blockquote>
                 </Reveal>
               ))}
             </div>
@@ -463,16 +408,6 @@ export default function Home() {
               <p className="cta-micro">{TRIAL_MICRO}</p>
             </Reveal>
             <div className="cta-stage">
-              <div className="cta-preview">
-                <div className="pv-video">
-                  <img src="/images/family-senior-lifestyle.png" alt="Aperçu d’un appel vidéo en famille" />
-                  <span className="pv-live"><i /> EN DIRECT</span>
-                </div>
-                <div className="pv-bar">
-                  <span className="pv-btn" style={{ background: 'rgba(255,255,255,.16)' }}><Mic size={15} color="#fff" /></span>
-                  <span className="pv-btn" style={{ background: '#ff5b5b' }}><Phone size={15} color="#fff" /></span>
-                </div>
-              </div>
               <div className="cta-phone">
                 <PhoneFrame width={276} statusBar={false}><AppScreenshot src="/images/app/senior-accueil.jpg" alt="Écran d’accueil du senior" cropTop={0} /></PhoneFrame>
               </div>

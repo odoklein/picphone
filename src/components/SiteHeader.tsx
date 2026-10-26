@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import Logo from './Logo'
-import { TRIAL_LABEL } from '../trial'
+import { TRIAL_LABEL, TRIAL_SHORT_LABEL } from '../trial'
 
 const navLinks = [
   { label: 'Le constat', href: '#constat' },
@@ -31,7 +31,7 @@ export default function SiteHeader() {
           {navLinks.map((l) => <a key={l.label} href={l.href}>{l.label}</a>)}
         </nav>
         <div className="nav-right">
-          <a className="btn btn-primary nav-cta" href="#cta">{TRIAL_LABEL}</a>
+          <a className="btn btn-primary nav-cta" href="#cta">{TRIAL_SHORT_LABEL}</a>
           <button className="nav-burger" aria-expanded={menuOpen} aria-label="Menu" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
